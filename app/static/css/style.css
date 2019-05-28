@@ -1,28 +1,10 @@
 @import "./period.css";
 
-
-
-
-span#path {
-  color: lightgreen;
-  background: rgb(0, 10, 0);
-  border-color: rgb(0, 10, 0);
-  padding: 0;
-}
-
-input#command-input {
-  color: lightgreen;
-  background: rgb(0, 10, 0);
-  border-color: rgb(0, 10, 0);
-}
-
 div.link {
   text-align: center;
 }
 
-div.cell {
-  padding: 1%;
-}
+
 
 span.blinky {
   animation: blink 0.5s infinite alternate;
