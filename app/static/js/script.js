@@ -25,18 +25,7 @@ $(document).ready(function(){
         $command_input = $("input#command-input").last();
   }
 
-  var commands = {
-    "cd": "Change directory",
-    "run": "Run application",
-    "help": "Get function names",
-    "stuff": "See all files in directory",
-    "nav": "Open program navigation menu",
-    "login": "Log in to your Personal Computer account",
-    "logout": "Log out of your Personal Computer account",
-    "register": "Create a Personal Computer account to log in and log out of",
-    "cleanse": "Purge all items on screen from existence",
-    "getmethehellouttahere": "Quit"
-  };
+
 
   $command_input.on("keypress", function(e){
     if(e.which == 13) {
