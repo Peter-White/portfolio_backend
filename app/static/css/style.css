@@ -1,53 +1,10 @@
 @import "./period.css";
 
-div.link {
-  text-align: center;
-}
-
-
-
 span.blinky {
   animation: blink 0.5s infinite alternate;
   -webkit-animation: blink 0.5s  infinite alternate;
   -moz-animation: blink 0.5s infinite alternate;
   -o-animation: blink 0.5s infinite alternate;
-}
-
-div.history-container {
-    margin: 0 auto;
-    padding: 1%;
-    border-style: dashed;
-}
-
-div.history-container h3 {
-    text-align: center;
-}
-
-div.history-container .row {
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.link {
-    text-align: center;
-}
-
-.fab, .fas {
-  color: lightgreen;
-  font-size: 100px;
-}
-
-.fa-trademark {
-  font-size: 15px;
-}
-
-div.link-container {
-    border-style: dashed;
-}
-
-div.container.link-container h3 {
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
 
 div.nav-container {
@@ -75,19 +32,6 @@ div.btn-group {
   padding: 20%;
 }
 
-div.info-container {
-  padding-top: 2%;
-}
-
 h3.text-center {
   margin: 0 auto;
-}
-
-body {
-  background: url(../img/34821.jpg) no-repeat center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  margin: 0;
 }

@@ -2,11 +2,13 @@ from app import app, db, login
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from time import time
+import jwt
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     company = db.Column(db.String(50))
     username = db.Column(db.String(30), unique=True, index=True)
     email = db.Column(db.String(120), unique=True, index=True)
@@ -17,6 +19,29 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def get_token(self, expires_in=86400):
+        return jwt.encode(
+            { 'user_id': self.id, 'exp': time() + expires_in },
+            app.config['SECRET_KEY'],
+            algorithm='HS256'
+        ).decode('utf-8')
+
+    @staticmethod
+    def verify_token(token):
+        try:
+            id = jwt.decode(
+                token,
+                app.config['SECRET_KEY'],
+                algorithm=['HS256']
+            )["user_id"]
+        except:
+            return
+
+        return User.query.get(id)
+
+    def __repr__(self):
+        return '<User {}>'.format(self.email)
 
 @login.user_loader
 def load_user(id):
