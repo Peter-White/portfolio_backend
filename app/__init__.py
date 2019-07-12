@@ -3,6 +3,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from config import Config
 from flask_migrate import Migrate
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
@@ -17,7 +18,7 @@ app.config.from_object(Config)
 # reason is that the config holds the location of the database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
+CORS(app)
 
 # app variables for login
 login = LoginManager(app)
