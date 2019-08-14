@@ -30,7 +30,7 @@ def register():
 
         return jsonify({ "success" : "User {} created".format(data['username']) })
     except:
-        return jsonify({ "error": "Falid to create user" })
+        return jsonify({ "error": "Failed to create user" })
 
 @app.route('/api/login', methods=['GET','POST'])
 def login():
@@ -87,7 +87,11 @@ def getUser():
         )
 
         userJSON = {}
-        user = User.query.filter_by(id = data["user_id"]).first()
+
+        if "user_id" in data:
+            user = User.query.filter_by(id = data["user_id"]).first()
+        else:
+            user = User.query.filter_by(email = data["email"], username = data["username"]).first()
 
         if user:
             userJSON["id"] = user.id
@@ -96,7 +100,6 @@ def getUser():
             userJSON["company"] = user.company
             userJSON["username"] = user.username
             userJSON["email"] = user.email
-            userJSON["password_hash"] = user.password_hash
 
         return jsonify(userJSON)
     except:
