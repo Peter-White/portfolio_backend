@@ -4,6 +4,7 @@ from app.forms import CommandInput, LoginForm, RegisterForm
 from app.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 import jwt
+from sqlalchemy import or_
 
 # create route for index page, render index.html file
 @app.route('/')
@@ -91,7 +92,7 @@ def getUser():
         if "user_id" in data:
             user = User.query.filter_by(id = data["user_id"]).first()
         else:
-            user = User.query.filter_by(email = data["email"], username = data["username"]).first()
+            user = User.query.filter(or_(User.email == data["email"], User.username == data["username"])).first()
 
         if user:
             userJSON["id"] = user.id
