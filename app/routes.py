@@ -12,10 +12,22 @@ from sqlalchemy import or_
 def index():
     return render_template('index.html')
 
-@app.route('/skills')
+@app.route('/skills', methods=['GET', 'POST'])
 def skills():
     form = AddSkillForm()
-    skills =
+    skills = Skill.query.all()
+
+    if form.validate_on_submit():
+        skill = Skill(
+            title = form.title.data,
+            yearStarted = form.yearStarted.data
+        )
+
+        db.session.add(skill)
+        db.session.commit()
+
+    return render_template('skills/index.html', skills=skills, form=form, title="Skills")
+
 
 @app.route('/api/register', methods=['GET','POST'])
 def register():

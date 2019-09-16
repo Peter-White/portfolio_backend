@@ -35,3 +35,4 @@ class RegisterForm(FlaskForm):
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")
     yearStarted = IntegerField('Year Started')
+    submit = SubmitField('Submit')
