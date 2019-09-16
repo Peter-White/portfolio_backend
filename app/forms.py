@@ -31,3 +31,7 @@ class RegisterForm(FlaskForm):
         if user is not None:
             flash('Sorry but those credentials are already in use')
             raise ValidationError('Use a different username/email.')
+
+class AddSkillForm(FlaskForm):
+    title = StringField("Skill Title")
+    yearStarted = IntegerField('Year Started')

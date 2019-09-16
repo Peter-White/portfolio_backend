@@ -1,7 +1,7 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import CommandInput, LoginForm, RegisterForm
-from app.models import User
+from app.forms import CommandInput, LoginForm, RegisterForm, AddSkillForm
+from app.models import User, Skill
 from flask_login import current_user, login_user, logout_user, login_required
 import jwt
 from sqlalchemy import or_
@@ -11,6 +11,11 @@ from sqlalchemy import or_
 @app.route('/index')
 def index():
     return render_template('index.html')
+
+@app.route('/skills')
+def skills():
+    form = AddSkillForm()
+    skills =
 
 @app.route('/api/register', methods=['GET','POST'])
 def register():

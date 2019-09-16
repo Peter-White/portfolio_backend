@@ -43,6 +43,23 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User {}>'.format(self.email)
 
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=True, nullable=False)
+    url = db.Column(db.String(500), unique=True, nullable=True)
+    image = db.Column(db.LargeBinary, nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
+    github = db.Column(db.String(500), nullable=True)
+
+class Skill(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), unique=True, nullable=False)
+    yearStarted = db.Column(db.Integer, nullable=False)
+
+class ProjectSkill(db.Model):
+    projectID = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
+    skillID = db.Column(db.Integer, db.ForeignKey('skill.id'), nullable=False)
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
