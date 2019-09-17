@@ -2,10 +2,44 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-  <ul>
-  {% for skill in skills %}
-  <li>{{skill.title}}</li>
-  {% endfor %}
-  </ul>
-  {{ wtf.quick_form(form) }}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table" id="skillsTable">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Year Sarted</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for skill in skills %}
+              <tr id={{skill.id}}>
+                <td>{{skill.title}}</td>
+                <td>{{skill.category}}</td>
+                <td>{{skill.yearStarted}}</td>
+                <td><button type="button" class="btn btn-danger deleteSkill">X</button></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        {{ wtf.quick_form(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block page_styles %}
+  <link rel="stylesheet" href="../../static/css/datatables.min.css">
+{% endblock %}
+
+{% block page_scripts %}
+  <script type="text/javascript" src="../../static/js/datatables.min.js"></script>
+  <script type="text/javascript" src="../../static/js/delete.js"></script>
 {% endblock %}

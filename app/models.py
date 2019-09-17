@@ -54,6 +54,7 @@ class Project(db.Model):
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
     yearStarted = db.Column(db.Integer, nullable=False)
 
 class ProjectSkill(db.Model):

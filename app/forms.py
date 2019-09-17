@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, IntegerField, TextAreaField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, IntegerField, TextAreaField, BooleanField, RadioField
 from wtforms.validators import DataRequired, Email, EqualTo, length, ValidationError
 from app.models import User
 from flask import flash
@@ -35,4 +35,5 @@ class RegisterForm(FlaskForm):
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")
     yearStarted = IntegerField('Year Started')
+    category = RadioField('Category', choices=[('language', 'Language'), ('framework', 'Framework'), ('database', 'Database Tools'), ('tool','Tool'), ('expertise','Expertise ')])
     submit = SubmitField('Submit')

@@ -18,13 +18,20 @@ def skills():
     skills = Skill.query.all()
 
     if form.validate_on_submit():
-        skill = Skill(
-            title = form.title.data,
-            yearStarted = form.yearStarted.data
-        )
+        try:
+            skill = Skill(
+                title = form.title.data,
+                yearStarted = form.yearStarted.data,
+                category = form.category.data
+            )
 
-        db.session.add(skill)
-        db.session.commit()
+            db.session.add(skill)
+            db.session.commit()
+
+            return redirect(url_for('skills'))
+        except:
+            flash("Didn't post skill")
+            return redirect(url_for('skills'))
 
     return render_template('skills/index.html', skills=skills, form=form, title="Skills")
 
@@ -122,3 +129,16 @@ def getUser():
         return jsonify(userJSON)
     except:
         return jsonify({"Error" : "Could not retrieve user"})
+
+@app.route('/api/deleteskill', methods=['GET','POST'])
+def deleteSkill():
+    try:
+        id = request.args["id"]
+        skill = Skill.query.filter_by(id = id).first()
+
+        db.session.delete(skill)
+        db.session.commit()
+
+        return jsonify({"success": id})
+    except:
+        return jsonify({"failed": "didn't work"})
