@@ -1,37 +1,3 @@
-@import "./period.css";
-
-span.blinky {
-  animation: blink 0.5s infinite alternate;
-  -webkit-animation: blink 0.5s  infinite alternate;
-  -moz-animation: blink 0.5s infinite alternate;
-  -o-animation: blink 0.5s infinite alternate;
-}
-
-div.nav-container {
-  border-style: solid;
-  border-left-color: black;
-  border-right-color: black;
-  border-bottom-color: #ffdbff;
-  border-top-color: #de9ffa;
-  background-color: black;
-  z-index: 1;
-}
-
-.col.background {
-    background-color: black;
-    color: white;
-    border-color: white;
-    border: solid;
-}
-
-div.btn-group {
-  padding: 0.5%;
-}
-
-.top-container {
-  padding: 20%;
-}
-
-h3.text-center {
-  margin: 0 auto;
+.selected {
+  background-color: lightgrey;
 }

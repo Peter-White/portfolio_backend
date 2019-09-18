@@ -11,7 +11,6 @@
               <th scope="col">Title</th>
               <th scope="col">Category</th>
               <th scope="col">Year Sarted</th>
-              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -20,11 +19,11 @@
                 <td>{{skill.title}}</td>
                 <td>{{skill.category}}</td>
                 <td>{{skill.yearStarted}}</td>
-                <td><button type="button" class="btn btn-danger deleteSkill">X</button></td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
+        <button type="button" class="btn btn-danger deleter">Delete Selected</button>
       </div>
     </div>
     <div class="row">
