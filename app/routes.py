@@ -1,12 +1,12 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import CommandInput, LoginForm, RegisterForm, AddSkillForm
-from app.models import User, Skill
+from app.forms import CommandInput, LoginForm, RegisterForm, AddSkillForm, AddProjectForm
+from app.models import User, Skill, Project
 from flask_login import current_user, login_user, logout_user, login_required
 import jwt
 from sqlalchemy import or_
 
-# create route for index page, render index.html file
+# secret backend pages
 @app.route('/')
 @app.route('/index')
 def index():
@@ -35,6 +35,42 @@ def skills():
 
     return render_template('skills/index.html', skills=skills, form=form, title="Skills")
 
+@app.route('/projects', methods=['GET', 'POST'])
+def projects():
+    form = AddProjectForm()
+    projects = Project.query.all()
+
+    if form.validate_on_submit():
+        try:
+            project = Project(
+                title = form.title.data,
+                description = form.description.data,
+                url = form.url.data,
+                github = form.github.data
+            )
+
+            db.session.add(project)
+            db.session.commit()
+
+            print(project.id)
+            # print(form.language.data)
+            # print(form.library.data)
+            # print(form.database.data)
+            # print(form.environment.data)
+            # print(form.framework.data)
+            # print(form.tool.data)
+            return redirect(url_for('projects'))
+        except:
+            flash("Didn't post project")
+            return redirect(url_for('projects'))
+
+    return render_template('projects/index.html', projects=projects, form=form)
+
+@app.route('/projects/:id')
+def project():
+    project = Project.query.filter_by(id = id).first()
+
+    return render_template('/project/index.html', project=project)
 
 @app.route('/api/register', methods=['GET','POST'])
 def register():

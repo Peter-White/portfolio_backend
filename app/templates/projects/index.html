@@ -5,25 +5,20 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <table class="table" id="skillsTable">
+        <table class="table" id="projectsTable">
           <thead>
             <tr>
               <th scope="col">Title</th>
-              <th scope="col">Category</th>
-              <th scope="col">Year Sarted</th>
             </tr>
           </thead>
           <tbody>
-            {% for skill in skills %}
-              <tr id={{skill.id}}>
-                <td>{{skill.title}}</td>
-                <td>{{skill.category}}</td>
-                <td>{{skill.yearStarted}}</td>
+            {% for project in projects %}
+              <tr id={{project.id}}>
+                <td>{{project.title}}</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-        <button type="button" class="btn btn-danger deleter">Delete Selected</button>
       </div>
     </div>
     <div class="row">
@@ -35,7 +30,6 @@
 {% endblock %}
 
 {% block page_styles %}
-  <link rel="stylesheet" href="../../static/css/datatables.min.css">
   <link rel="stylesheet" href="main.css">
 {% endblock %}
 
