@@ -54,7 +54,7 @@ class Employee(db.Model):
     def __repr__(self):
         return '<Employee {}>'.format(self.userID)
 
-class Role(db.Models):
+class Role(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
 
