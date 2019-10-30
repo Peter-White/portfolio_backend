@@ -1,12 +1,15 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
 from app.forms import CommandInput, LoginForm, RegisterForm, AddSkillForm, AddProjectForm
-from app.models import User, Skill, Project
+from app.models import User, Skill, Project, ProjectSkill
 from flask_login import current_user, login_user, logout_user, login_required
 import jwt
 from sqlalchemy import or_
 
-# secret backend pages
+# ********************************************************************************
+# Secret Backend Pages
+# ********************************************************************************
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -33,7 +36,7 @@ def skills():
             flash("Didn't post skill")
             return redirect(url_for('skills'))
 
-    return render_template('skills/index.html', skills=skills, form=form, title="Skills")
+    return render_template('skills.html', skills=skills, form=form, title="Skills")
 
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
@@ -42,6 +45,10 @@ def projects():
 
     if form.validate_on_submit():
         try:
+            if(form.url.data == "" and form.github.data == ""):
+                flash("One URL required")
+                return redirect(url_for('projects'))
+
             project = Project(
                 title = form.title.data,
                 description = form.description.data,
@@ -52,25 +59,33 @@ def projects():
             db.session.add(project)
             db.session.commit()
 
-            print(project.id)
-            # print(form.language.data)
-            # print(form.library.data)
-            # print(form.database.data)
-            # print(form.environment.data)
-            # print(form.framework.data)
-            # print(form.tool.data)
+            projectId = project.id
+
+            skills = form.language.data + form.library.data + form.database.data + form.environment.data + form.framework.data + form.tool.data
+
+            for skillId in skills:
+                projectSkill = ProjectSkill(projectID = projectId, skillID = skillId)
+
+                db.session.add(projectSkill)
+                db.session.commit()
+
             return redirect(url_for('projects'))
         except:
             flash("Didn't post project")
             return redirect(url_for('projects'))
 
-    return render_template('projects/index.html', projects=projects, form=form)
+    return render_template('projects.html', projects=projects, form=form)
 
-@app.route('/projects/:id')
-def project():
+@app.route('/projects/<int:id>', methods=['GET', 'POST'])
+def project(id):
     project = Project.query.filter_by(id = id).first()
 
-    return render_template('/project/index.html', project=project)
+    return render_template('project.html', project=project)
+
+
+# ********************************************************************************
+# API Routes
+# ********************************************************************************
 
 @app.route('/api/register', methods=['GET','POST'])
 def register():
