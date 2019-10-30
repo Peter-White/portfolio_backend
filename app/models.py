@@ -45,11 +45,18 @@ class User(db.Model, UserMixin):
 
 class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    projectID = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
     def confirm_employee(self):
         self.confirmed = True
+
+    def __repr__(self):
+        return '<Employee {}>'.format(self.userID)
+
+class Role(db.Models):
+    id = db.Column(db.String(50), primary_key=True)
+    title = db.Column(db.String(50), unique=True, nullable=False)
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
