@@ -100,7 +100,7 @@ def backLogin():
 
     # if user is already logged in , send them to the profile page
     if current_user.is_authenticated:
-        return redirect(url_for('index', username=current_user.username))
+        return redirect(url_for('index'))
 
     if form.validate_on_submit():
         # query the database for the user trying to log in
@@ -110,7 +110,7 @@ def backLogin():
             return redirect(url_for('index'))
 
         login_user(user, remember = form.remember_me.data)
-        return redirect(url_for('index', username=user.username))
+        return redirect(url_for('index'))
 
     return render_template('login.html', title="Login", form=form)
 
@@ -118,7 +118,7 @@ def backLogin():
 @app.route('/logout')
 def backLogout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('backLogin'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def backRegister():
