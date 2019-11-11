@@ -1,6 +1,6 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import CommandInput, LoginForm, RegisterForm, AddSkillForm, AddProjectForm
+from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm
 from app.models import User, Skill, Project, ProjectSkill
 from flask_login import current_user, login_user, logout_user, login_required
 import jwt
@@ -82,6 +82,52 @@ def project(id):
 
     return render_template('project.html', project=project)
 
+@app.route('/login', methods=['GET', 'POST'])
+def backLogin():
+    form = LoginForm()
+
+    # if user is already logged in , send them to the profile page
+    if current_user.is_authenticated:
+        return redirect(url_for('index', username=current_user.username))
+
+    if form.validate_on_submit():
+        # query the database for the user trying to log in
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if user is None or not user.check_password(form.password.data):
+            return redirect(url_for('index'))
+
+        login_user(user, remember = form.remember_me.data)
+        return redirect(url_for('index', username=user.username))
+
+    return render_template('login.html', title="Login", form=form)
+
+@login_required
+@app.route('/logout')
+def backLogout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def backRegister():
+    form = RegisterForm()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    if form.validate_on_submit():
+        try:
+            user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], username=data["username"], email=data["email"])
+            user.set_password(data["password"])
+            db.session.add(user)
+            db.session.commit()
+
+            return redirect(url_for('login'))
+        except:
+            flash("Couldn't register")
+            return redirect(url_for('register'))
+
+    return render_template('register.html', form=form, title="Register")
 
 # ********************************************************************************
 # API Routes

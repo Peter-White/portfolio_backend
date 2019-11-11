@@ -47,9 +47,13 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    roleID = db.Column(db.String(50), db.ForeignKey('role.id'), nullable=True)
 
     def confirm_employee(self):
         self.confirmed = True
+
+    def set_role(self, roleID):
+        self.roleID = roleID
 
     def __repr__(self):
         return '<Employee {}>'.format(self.userID)
@@ -65,16 +69,25 @@ class Project(db.Model):
     description = db.Column(db.String(1000), nullable=False)
     github = db.Column(db.String(500), unique=True, nullable=True)
 
+    def __repr__(self):
+        return '<Project {}>'.format(self.title)
+
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
     category = db.Column(db.String(50), nullable=False)
     yearStarted = db.Column(db.Integer, nullable=False)
 
+    def __repr__(self):
+        return '<Skill {}>'.format(self.title)
+
 class ProjectSkill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     projectID = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     skillID = db.Column(db.Integer, db.ForeignKey('skill.id'), nullable=False)
+
+    def __repr__(self):
+        return '<ProjectSkill {}>'.format(self.projectID + " - " + self.skillID)
 
 class ProjectImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -13,11 +13,8 @@ def skills(category):
 
     return skillArr
 
-class CommandInput(FlaskForm):
-    command = StringField("C:/>")
-
 class LoginForm(FlaskForm):
-    email = StringField('Electronic Super Mail', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
 
 class RegisterForm(FlaskForm):
