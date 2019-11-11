@@ -16,6 +16,8 @@ def skills(category):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Submit')
 
 class RegisterForm(FlaskForm):
     first_name = StringField("First Name")
@@ -25,6 +27,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Electronic Super Mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Submit')
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
