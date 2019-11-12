@@ -18,6 +18,7 @@ def index():
 
     return render_template('index.html', title="Mistah White")
 
+
 @app.route('/skills', methods=['GET', 'POST'])
 def skills():
     form = AddSkillForm()
@@ -87,7 +88,10 @@ def projects():
 
 @app.route('/users', methods=['GET', 'POST'])
 def users():
-    return render_template('users.html')
+    if current_user.is_authenticated:
+        return render_template('users.html')
+    else:
+        return redirect(url_for('backLogin'))
 
 @app.route('/projects/<int:id>', methods=['GET', 'POST'])
 def project(id):
@@ -99,6 +103,15 @@ def project(id):
         return render_template('project.html', project=project, skills=skills, images=images)
     else:
         return redirect(url_for('backLogin'))
+
+@login_required
+@app.route('/deleteproject/<int:id>')
+def deleteProject(id):
+    project = Project.query.get(id);
+
+    print(project)
+
+    return redirect(url_for('projects'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def backLogin():
