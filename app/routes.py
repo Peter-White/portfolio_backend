@@ -85,6 +85,10 @@ def projects():
     else:
         return redirect(url_for('backLogin'))
 
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    return render_template('users.html')
+
 @app.route('/projects/<int:id>', methods=['GET', 'POST'])
 def project(id):
     if current_user.is_authenticated:

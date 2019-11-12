@@ -28,7 +28,14 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        {{ wtf.quick_form(form) }}
+        <h1><a class="displayForm" href="#">+</a></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="form-container" class="hide">
+          {{ wtf.quick_form(form) }}
+        </div>
       </div>
     </div>
   </div>
@@ -37,9 +44,11 @@
 {% block page_styles %}
   <link rel="stylesheet" href="../static/css/datatables.min.css">
   <link rel="stylesheet" href="../static/css/tablerow.css">
+  <link rel="stylesheet" href="../static/css/form.css">
 {% endblock %}
 
 {% block page_scripts %}
   <script type="text/javascript" src="../static/js/datatables.min.js"></script>
   <script type="text/javascript" src="../static/js/delete.js"></script>
+  <script type="text/javascript" src="../static/js/form.js"></script>
 {% endblock %}
