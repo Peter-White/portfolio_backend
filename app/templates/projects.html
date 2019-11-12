@@ -13,8 +13,8 @@
           </thead>
           <tbody>
             {% for project in projects %}
-              <tr id={{project.id}}>
-                <td>{{project.title}}</td>
+              <tr>
+                <td><a href="projects/{{project.id}}">{{project.title}}</a></td>
               </tr>
             {% endfor %}
           </tbody>
@@ -23,17 +23,25 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        {{ wtf.quick_form(form) }}
+        <h1><a class="displayForm" href="#">+</a></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="form-container" class="hide">
+          {{ wtf.quick_form(form) }}
+        </div>
       </div>
     </div>
   </div>
 {% endblock %}
 
 {% block page_styles %}
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="../static/css/form.css">
+  <link rel="stylesheet" href="../static/css/projects.css">
 {% endblock %}
 
 {% block page_scripts %}
   <script type="text/javascript" src="../../static/js/datatables.min.js"></script>
-  <script type="text/javascript" src="../../static/js/delete.js"></script>
+  <script type="text/javascript" src="../static/js/form.js"></script>
 {% endblock %}
