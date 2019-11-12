@@ -109,7 +109,8 @@ def project(id):
 def deleteProject(id):
     project = Project.query.get(id);
 
-    print(project)
+    db.session.delete(project)
+    db.session.commit()
 
     return redirect(url_for('projects'))
 
