@@ -1,7 +1,7 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
 from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm
-from app.models import User, Skill, Project, ProjectSkill
+from app.models import User, Skill, Project, ProjectSkill, ProjectImage
 from flask_login import current_user, login_user, logout_user, login_required
 import jwt
 from sqlalchemy import or_
@@ -93,8 +93,10 @@ def users():
 def project(id):
     if current_user.is_authenticated:
         project = Project.query.filter_by(id = id).first()
+        skills = ProjectSkill.query.filter_by(projectID = id).all()
+        images = ProjectImage.query.filter_by(projectID = id).all()
 
-        return render_template('project.html', project=project)
+        return render_template('project.html', project=project, skills=skills, images=images)
     else:
         return redirect(url_for('backLogin'))
 
