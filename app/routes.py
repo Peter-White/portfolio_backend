@@ -108,8 +108,8 @@ def project(id):
 @app.route('/deleteproject/<int:id>')
 def deleteProject(id):
     project = Project.query.get(id);
-
-    print(project)
+    db.session.delete(project)
+    db.session.commit()
 
     return redirect(url_for('projects'))
 
@@ -148,15 +148,15 @@ def backRegister():
 
     if form.validate_on_submit():
         try:
-            user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], username=data["username"], email=data["email"])
-            user.set_password(data["password"])
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, company=form.company.data, username=form.username.data, email=form.email.data)
+            user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
 
-            return redirect(url_for('login'))
+            return redirect(url_for('backLogin'))
         except:
             flash("Couldn't register")
-            return redirect(url_for('register'))
+            return redirect(url_for('backRegister'))
 
     return render_template('register.html', form=form, title="Register")
 
