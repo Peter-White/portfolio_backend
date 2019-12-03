@@ -24,6 +24,68 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-3">
+        <h4>language</h4>
+        <ul>
+        {% for skill in skills["language"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>environment</h4>
+        <ul>
+        {% for skill in skills["environment"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>tool</h4>
+        <ul>
+        {% for skill in skills["tool"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>library</h4>
+        <ul>
+        {% for skill in skills["library"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>database</h4>
+        <ul>
+        {% for skill in skills["database"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>expertise</h4>
+        <ul>
+        {% for skill in skills["framework"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>framework</h4>
+        <ul>
+        {% for skill in skills["expertise"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-12">
         <a href="/deleteproject/{{project.id}}">Delete Project</a>
       </div>
@@ -32,6 +94,7 @@
 {% endblock %}
 
 {% block page_styles %}
+  <link rel="stylesheet" href="../static/css/project.css">
 {% endblock %}
 
 {% block page_scripts %}

@@ -97,8 +97,22 @@ def users():
 def project(id):
     if current_user.is_authenticated:
         project = Project.query.filter_by(id = id).first()
-        skills = ProjectSkill.query.filter_by(projectID = id).all()
         images = ProjectImage.query.filter_by(projectID = id).all()
+
+        skills = {
+            "language": [],
+            "environment": [],
+            "tool": [],
+            "library": [],
+            "database": [],
+            "expertise": [],
+            "framework": []
+        }
+        projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
+
+        for ps in projectSkills:
+            skill = Skill.query.get(ps.skillID)
+            skills[skill.category].append(skill)
 
         return render_template('project.html', project=project, skills=skills, images=images)
     else:
