@@ -121,6 +121,15 @@ def project(id):
 @login_required
 @app.route('/deleteproject/<int:id>')
 def deleteProject(id):
+    pImages = ProjectImage.query.filter_by(projectID = id).all()
+    pSkills = ProjectSkill.query.filter_by(projectID = id).all()
+
+    for image in pImages:
+        db.session.delete(image)
+
+    for skill in pSkills:
+        db.session.delete(skill)
+
     project = Project.query.get(id);
     db.session.delete(project)
     db.session.commit()
