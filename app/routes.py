@@ -1,10 +1,13 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm
+from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm
 from app.models import User, Skill, Project, ProjectSkill, ProjectImage
 from flask_login import current_user, login_user, logout_user, login_required
-import jwt
+from werkzeug.utils import secure_filename
 from sqlalchemy import or_
+import base64
+import jwt
+import os
 
 # ********************************************************************************
 # Secret Backend Pages
@@ -86,16 +89,10 @@ def projects():
     else:
         return redirect(url_for('backLogin'))
 
-@app.route('/users', methods=['GET', 'POST'])
-def users():
-    if current_user.is_authenticated:
-        return render_template('users.html')
-    else:
-        return redirect(url_for('backLogin'))
-
 @app.route('/projects/<int:id>', methods=['GET', 'POST'])
 def project(id):
     if current_user.is_authenticated:
+        form = ProjectImageForm()
         project = Project.query.filter_by(id = id).first()
         images = ProjectImage.query.filter_by(projectID = id).all()
 
@@ -109,12 +106,51 @@ def project(id):
             "framework": []
         }
         projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
-
         for ps in projectSkills:
             skill = Skill.query.get(ps.skillID)
             skills[skill.category].append(skill)
 
-        return render_template('project.html', project=project, skills=skills, images=images)
+        if form.validate_on_submit():
+            try:
+                data = form.image.data
+                filename = secure_filename(data.filename)
+
+                path = os.path.join(
+                    app.instance_path, 'images'
+                )
+
+                if(not os.path.exists(path)):
+                    os.makedirs(path)
+
+                path = os.path.join(path, filename)
+
+                data.save(path)
+
+                str = ""
+                with open(path, "rb") as imageFile:
+                    str = base64.b64encode(imageFile.read())
+
+                pImage = ProjectImage(projectID = id, image = str)
+
+                os.remove(path)
+
+                db.session.add(pImage)
+                db.session.commit()
+
+                flash("Image posted")
+                return redirect(url_for('projects'))
+            except:
+                flash("Didn't post project")
+                return redirect(url_for('projects'))
+
+        return render_template('project.html', project=project, skills=skills, images=images, form=form)
+    else:
+        return redirect(url_for('backLogin'))
+
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    if current_user.is_authenticated:
+        return render_template('users.html')
     else:
         return redirect(url_for('backLogin'))
 
