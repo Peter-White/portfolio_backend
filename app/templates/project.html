@@ -87,9 +87,22 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        {% for image in images %}
-          <img src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
-        {% endfor %}
+        <table class="table">
+          <thead></thead>
+          <tbody>
+            <tr>
+              {% for image in images %}
+                {% if loop.index % 3 == 0 %}
+                  <td><img src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></td>
+                  </tr>
+                  <tr>                
+                {% else %}
+                  <td><img src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="row">
@@ -104,13 +117,10 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-<<<<<<< HEAD
         <a href="/deleteproject/{{project.id}}" class="button">Delete</a>
-=======
         <div id="form-container" class="hide">
           {{ wtf.quick_form(form) }}
         </div>
->>>>>>> master
       </div>
     </div>
   </div>

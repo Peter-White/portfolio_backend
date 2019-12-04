@@ -163,13 +163,10 @@ def deleteProject(id):
     for image in pImages:
         db.session.delete(image)
 
-<<<<<<< HEAD
-=======
     for skill in pSkills:
         db.session.delete(skill)
 
     project = Project.query.get(id);
->>>>>>> master
     db.session.delete(project)
     db.session.commit()
 
