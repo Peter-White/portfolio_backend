@@ -1,10 +1,13 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm
+from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm
 from app.models import User, Skill, Project, ProjectSkill, ProjectImage
 from flask_login import current_user, login_user, logout_user, login_required
-import jwt
+from werkzeug.utils import secure_filename
 from sqlalchemy import or_
+import base64
+import jwt
+import os
 
 # ********************************************************************************
 # Secret Backend Pages
@@ -86,6 +89,64 @@ def projects():
     else:
         return redirect(url_for('backLogin'))
 
+@app.route('/projects/<int:id>', methods=['GET', 'POST'])
+def project(id):
+    if current_user.is_authenticated:
+        form = ProjectImageForm()
+        project = Project.query.filter_by(id = id).first()
+        images = ProjectImage.query.filter_by(projectID = id).all()
+
+        skills = {
+            "language": [],
+            "environment": [],
+            "tool": [],
+            "library": [],
+            "database": [],
+            "expertise": [],
+            "framework": []
+        }
+        projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
+        for ps in projectSkills:
+            skill = Skill.query.get(ps.skillID)
+            skills[skill.category].append(skill)
+
+        if form.validate_on_submit():
+            try:
+                data = form.image.data
+                filename = secure_filename(data.filename)
+
+                path = os.path.join(
+                    app.instance_path, 'images'
+                )
+
+                if(not os.path.exists(path)):
+                    os.makedirs(path)
+
+                path = os.path.join(path, filename)
+
+                data.save(path)
+
+                str = ""
+                with open(path, "rb") as imageFile:
+                    str = base64.b64encode(imageFile.read())
+
+                pImage = ProjectImage(projectID = id, image = str)
+
+                os.remove(path)
+
+                db.session.add(pImage)
+                db.session.commit()
+
+                flash("Image posted")
+                return redirect(url_for('projects'))
+            except:
+                flash("Didn't post project")
+                return redirect(url_for('projects'))
+
+        return render_template('project.html', project=project, skills=skills, images=images, form=form)
+    else:
+        return redirect(url_for('backLogin'))
+
 @app.route('/users', methods=['GET', 'POST'])
 def users():
     if current_user.is_authenticated:
@@ -93,22 +154,22 @@ def users():
     else:
         return redirect(url_for('backLogin'))
 
-@app.route('/projects/<int:id>', methods=['GET', 'POST'])
-def project(id):
-    if current_user.is_authenticated:
-        project = Project.query.filter_by(id = id).first()
-        skills = ProjectSkill.query.filter_by(projectID = id).all()
-        images = ProjectImage.query.filter_by(projectID = id).all()
-
-        return render_template('project.html', project=project, skills=skills, images=images)
-    else:
-        return redirect(url_for('backLogin'))
-
 @login_required
 @app.route('/deleteproject/<int:id>')
 def deleteProject(id):
-    project = Project.query.get(id);
+    pImages = ProjectImage.query.filter_by(projectID = id).all()
+    pSkills = ProjectSkill.query.filter_by(projectID = id).all()
 
+    for image in pImages:
+        db.session.delete(image)
+
+<<<<<<< HEAD
+=======
+    for skill in pSkills:
+        db.session.delete(skill)
+
+    project = Project.query.get(id);
+>>>>>>> master
     db.session.delete(project)
     db.session.commit()
 
@@ -149,15 +210,15 @@ def backRegister():
 
     if form.validate_on_submit():
         try:
-            user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], username=data["username"], email=data["email"])
-            user.set_password(data["password"])
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, company=form.company.data, username=form.username.data, email=form.email.data)
+            user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
 
-            return redirect(url_for('login'))
+            return redirect(url_for('backLogin'))
         except:
             flash("Couldn't register")
-            return redirect(url_for('register'))
+            return redirect(url_for('backRegister'))
 
     return render_template('register.html', form=form, title="Register")
 

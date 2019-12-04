@@ -24,15 +24,102 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-3">
+        <h4>Languages</h4>
+        <ul>
+        {% for skill in skills["language"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>Environments</h4>
+        <ul>
+        {% for skill in skills["environment"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>Tools</h4>
+        <ul>
+        {% for skill in skills["tool"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Libraries</h4>
+        <ul>
+        {% for skill in skills["library"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>Databases</h4>
+        <ul>
+        {% for skill in skills["database"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>Expertise</h4>
+        <ul>
+        {% for skill in skills["framework"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Frameworks</h4>
+        <ul>
+        {% for skill in skills["expertise"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-12">
+        {% for image in images %}
+          <img src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <a href="/deleteproject/{{project.id}}">Delete Project</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h1><a class="displayForm" href="#">+</a></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+<<<<<<< HEAD
         <a href="/deleteproject/{{project.id}}" class="button">Delete</a>
+=======
+        <div id="form-container" class="hide">
+          {{ wtf.quick_form(form) }}
+        </div>
+>>>>>>> master
       </div>
     </div>
   </div>
 {% endblock %}
 
 {% block page_styles %}
+  <link rel="stylesheet" href="../static/css/project.css">
 {% endblock %}
 
 {% block page_scripts %}
+<script type="text/javascript" src="../static/js/form.js"></script>
 {% endblock %}

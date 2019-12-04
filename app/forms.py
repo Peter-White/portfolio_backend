@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, TextAreaField, BooleanField, RadioField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, EqualTo, length, ValidationError
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app.models import User, Skill
 from flask import flash
 
@@ -44,7 +45,7 @@ class RegisterForm(FlaskForm):
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")
     yearStarted = IntegerField('Year Started')
-    category = RadioField('Category', choices=[('language', 'Language'), ('framework', 'Framework'), ('database', 'Database Tools'), ('tool','Tool'), ('library', 'Library'), ('environment', 'Environment'), ('expertise','Expertise ')])
+    category = RadioField('Category', choices=[('database', 'Database Tools'), ('environment', 'Environment'), ('expertise','Expertise '), ('framework', 'Framework'), ('language', 'Language'), ('library', 'Library'), ('tool','Tool')])
     submit = SubmitField('Submit')
 
 class AddProjectForm(FlaskForm):
@@ -58,4 +59,8 @@ class AddProjectForm(FlaskForm):
     environment = SelectMultipleField('Environments Used', choices=skills("environment"))
     framework = SelectMultipleField('Frameworks Used', choices=skills("framework"))
     tool = SelectMultipleField('Tools Used', choices=skills("tool"))
+    submit = SubmitField('Submit')
+
+class ProjectImageForm(FlaskForm):
+    image = FileField('image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
     submit = SubmitField('Submit')
