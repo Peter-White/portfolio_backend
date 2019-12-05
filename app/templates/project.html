@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <h4>Languages</h4>
         <ul>
         {% for skill in skills["language"] %}
@@ -32,7 +32,7 @@
         {% endfor %}
         </ul>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <h4>Environments</h4>
         <ul>
         {% for skill in skills["environment"] %}
@@ -40,7 +40,7 @@
         {% endfor %}
         </ul>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <h4>Tools</h4>
         <ul>
         {% for skill in skills["tool"] %}
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <h4>Libraries</h4>
         <ul>
         {% for skill in skills["library"] %}
@@ -58,28 +58,18 @@
         {% endfor %}
         </ul>
       </div>
-      <div class="col-md-3">
-        <h4>Databases</h4>
-        <ul>
-        {% for skill in skills["database"] %}
-          <li>{{skill.title}}</li>
-        {% endfor %}
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <h4>Expertise</h4>
+      <div class="col-md-4">
+        <h4>Frameworks</h4>
         <ul>
         {% for skill in skills["framework"] %}
           <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3">
-        <h4>Frameworks</h4>
+      <div class="col-md-4">
+        <h4>Databases</h4>
         <ul>
-        {% for skill in skills["expertise"] %}
+        {% for skill in skills["database"] %}
           <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
@@ -92,10 +82,10 @@
           <tbody>
             <tr>
               {% for image in images %}
-                {% if loop.index % 3 == 0 %}
+                {% if loop.index % 5 == 0 %}
                   <td><img src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></td>
                   </tr>
-                  <tr>                
+                  <tr>
                 {% else %}
                   <td><img src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></td>
                 {% endif %}
@@ -107,19 +97,34 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <a href="/deleteproject/{{project.id}}">Delete Project</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
         <h1><a class="displayForm" href="#">+</a></h1>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <a href="/deleteproject/{{project.id}}" class="button">Delete</a>
         <div id="form-container" class="hide">
           {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 delete">
+        <a href="/deleteproject/{{project.id}}">Delete Project</a>
+      </div>
+    </div>
+  </div>
+  <div id="overlay">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -131,5 +136,6 @@
 {% endblock %}
 
 {% block page_scripts %}
-<script type="text/javascript" src="../static/js/form.js"></script>
+  <script type="text/javascript" src="../static/js/form.js"></script>
+  <script type="text/javascript" src="../static/js/project.js"></script>
 {% endblock %}
