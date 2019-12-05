@@ -3,9 +3,13 @@ ul {
   list-style-type: none;
 }
 
-img {
-  height: 100px;
+table img {
+  height: 150px;
   cursor: pointer;
+}
+
+.container.card-container {
+  margin-top: 100px;
 }
 
 .col-md-12.delete {
@@ -14,6 +18,14 @@ img {
 
 .col-md-12.delete a {
   color: red;
+  font-size: 20px;
+}
+
+.card-body {
+  text-align: center;
+}
+
+.btn-danger {
   font-size: 20px;
 }
 

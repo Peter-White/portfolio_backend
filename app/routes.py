@@ -147,6 +147,18 @@ def project(id):
     else:
         return redirect(url_for('backLogin'))
 
+@app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])
+def deleteImage(id):
+    try:
+        pImage = ProjectImage.query.get(id)
+
+        # db.session.delete(pImage)
+        # db.session.commit()
+
+        return jsonify({ "success" : "image deleted" })
+    except:
+        return jsonify({ "failed" : "Something went wrong" })
+
 @app.route('/users', methods=['GET', 'POST'])
 def users():
     if current_user.is_authenticated:
