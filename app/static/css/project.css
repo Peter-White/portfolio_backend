@@ -8,8 +8,13 @@ table img {
   cursor: pointer;
 }
 
+.card {
+  max-height: 800px;
+  overflow: scroll;
+}
+
 .container.card-container {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .col-md-12.delete {

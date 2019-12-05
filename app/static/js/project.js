@@ -3,6 +3,7 @@ $(document).ready(function(){
   let $card = $(".card");
   let $cardImg = $(".card-img-top");
   let $btnDanger = $(".btn-danger");
+  let $cardTitle = $("card-title");
   let $image = "";
   let imgId = -1;
 
@@ -11,7 +12,6 @@ $(document).ready(function(){
     $cardImg.attr("src", $(this).attr("src"));
     imgId = $(this).attr("class");
     $image = $(this);
-    console.log($image.parent().addClass("dat"));
   });
 
   $overlay.click(function(){
@@ -27,6 +27,11 @@ $(document).ready(function(){
       if (Object.keys(data)[0] === "success") {
         imgId = -1;
         image = "";
+        $overlay.removeClass("show");
+        $image.parent().remove();
+        $cardTitle.text() = "";
+      } else {
+        $cardTitle.text() = data[Object.keys(data)[0]];
       }
     });
   });

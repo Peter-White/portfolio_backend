@@ -152,8 +152,8 @@ def deleteImage(id):
     try:
         pImage = ProjectImage.query.get(id)
 
-        # db.session.delete(pImage)
-        # db.session.commit()
+        db.session.delete(pImage)
+        db.session.commit()
 
         return jsonify({ "success" : "image deleted" })
     except:
