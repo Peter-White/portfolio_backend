@@ -30,7 +30,7 @@
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Language
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <div id="language" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {% for skill in otherSkills["language"] %}
               <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
             {% endfor %}
@@ -48,7 +48,7 @@
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Environment
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <div id="environment" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {% for skill in otherSkills["environment"] %}
               <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
             {% endfor %}
@@ -66,7 +66,7 @@
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Tool
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <div id="tool" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {% for skill in otherSkills["tool"] %}
               <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
             {% endfor %}
@@ -86,7 +86,7 @@
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Library
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <div id="library" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {% for skill in otherSkills["library"] %}
               <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
             {% endfor %}
@@ -104,7 +104,7 @@
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Framework
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <div id="framework" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {% for skill in otherSkills["framework"] %}
               <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
             {% endfor %}
@@ -122,7 +122,7 @@
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Add Database
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <div id="database" class="dropdown-menu" aria-labelledby="dropdownMenu2">
             {% for skill in otherSkills["database"] %}
               <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
             {% endfor %}

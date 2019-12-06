@@ -208,7 +208,15 @@ def deleteProjectSkill():
         db.session.delete(pSkill)
         db.session.commit()
 
-        return jsonify({ "success" : "project skill deleted" })
+        skill = Skill.query.get(skillId);
+
+        return jsonify({ "success" : {
+                "id" : skill.id,
+                "title" : skill.title,
+                "category" : skill.category,
+                "yearStarted" : skill.yearStarted
+            }
+        })
     except:
         return jsonify({ "failed" : "Something went wrong" })
 
