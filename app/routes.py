@@ -95,6 +95,7 @@ def project(id):
         form = ProjectImageForm()
         project = Project.query.filter_by(id = id).first()
         images = ProjectImage.query.filter_by(projectID = id).all()
+        allSkills = Skill.query.all()
 
         skills = {
             "language": [],
@@ -105,10 +106,24 @@ def project(id):
             "expertise": [],
             "framework": []
         }
+        otherSkills = {
+            "language": [],
+            "environment": [],
+            "tool": [],
+            "library": [],
+            "database": [],
+            "expertise": [],
+            "framework": []
+        }
+
         projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
         for ps in projectSkills:
             skill = Skill.query.get(ps.skillID)
             skills[skill.category].append(skill)
+            allSkills.remove(skill)
+
+        for skill in allSkills:
+            otherSkills[skill.category].append(skill)
 
         if form.validate_on_submit():
             try:
@@ -143,7 +158,7 @@ def project(id):
                 flash("Didn't post project")
                 return redirect(url_for('project', id=id))
 
-        return render_template('project.html', project=project, skills=skills, images=images, form=form)
+        return render_template('project.html', project=project, skills=skills, otherSkills=otherSkills, images=images, form=form)
     else:
         return redirect(url_for('backLogin'))
 
@@ -156,6 +171,22 @@ def deleteImage(id):
         db.session.commit()
 
         return jsonify({ "success" : "image deleted" })
+    except:
+        return jsonify({ "failed" : "Something went wrong" })
+
+@app.route('/deleteprojectskill', methods=['GET', 'POST'])
+def deleteProjectSkill():
+    try:
+        args = request.args
+        skillId = int(args.get("skill"))
+        projectId = int(args.get("project"))
+
+        pSkill = ProjectSkill.query.filter_by(skillID=skillId, projectID=projectId).first()
+
+        db.session.delete(pSkill)
+        db.session.commit()
+
+        return jsonify({ "success" : "project skill deleted" })
     except:
         return jsonify({ "failed" : "Something went wrong" })
 

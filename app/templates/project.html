@@ -26,25 +26,55 @@
     <div class="row">
       <div class="col-md-4">
         <h4>Languages</h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Language
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {% for skill in otherSkills["language"] %}
+              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
+            {% endfor %}
+          </div>
+        </div>
         <ul>
         {% for skill in skills["language"] %}
-          <li>{{skill.title}}</li>
+          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
         {% endfor %}
         </ul>
       </div>
       <div class="col-md-4">
         <h4>Environments</h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Environment
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {% for skill in otherSkills["environment"] %}
+              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
+            {% endfor %}
+          </div>
+        </div>
         <ul>
         {% for skill in skills["environment"] %}
-          <li>{{skill.title}}</li>
+          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
         {% endfor %}
         </ul>
       </div>
       <div class="col-md-4">
         <h4>Tools</h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Tool
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {% for skill in otherSkills["tool"] %}
+              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
+            {% endfor %}
+          </div>
+        </div>
         <ul>
         {% for skill in skills["tool"] %}
-          <li>{{skill.title}}</li>
+          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
         {% endfor %}
         </ul>
       </div>
@@ -52,25 +82,55 @@
     <div class="row">
       <div class="col-md-4">
         <h4>Libraries</h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Library
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {% for skill in otherSkills["library"] %}
+              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
+            {% endfor %}
+          </div>
+        </div>
         <ul>
         {% for skill in skills["library"] %}
-          <li>{{skill.title}}</li>
+          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
         {% endfor %}
         </ul>
       </div>
       <div class="col-md-4">
         <h4>Frameworks</h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Framework
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {% for skill in otherSkills["framework"] %}
+              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
+            {% endfor %}
+          </div>
+        </div>
         <ul>
         {% for skill in skills["framework"] %}
-          <li>{{skill.title}}</li>
+          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
         {% endfor %}
         </ul>
       </div>
       <div class="col-md-4">
         <h4>Databases</h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add Database
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            {% for skill in otherSkills["database"] %}
+              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
+            {% endfor %}
+          </div>
+        </div>
         <ul>
         {% for skill in skills["database"] %}
-          <li>{{skill.title}}</li>
+          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
         {% endfor %}
         </ul>
       </div>
@@ -118,7 +178,7 @@
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <div class="card">
-            <img class="card-img-top" src="none" alt="Card image cap" />
+            <img class="card-img-top" src="#" alt="Card image cap" />
             <div class="card-body">
               <h3 style="color:red" class="card-title"></h3>
               <a href="#" class="btn btn-danger">Delete</a>
