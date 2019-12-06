@@ -174,6 +174,28 @@ def deleteImage(id):
     except:
         return jsonify({ "failed" : "Something went wrong" })
 
+@app.route('/addprojectskill', methods=['GET', 'POST'])
+def addProjectSkill():
+    try:
+        args = request.args
+        skillId = int(args.get("skill"))
+        projectId = int(args.get("project"))
+
+        db.session.add(ProjectSkill(projectID=projectId, skillID=skillId))
+        db.session.commit()
+
+        skill = Skill.query.get(skillId);
+
+        return jsonify({ "success" : {
+                "id" : skill.id,
+                "title" : skill.title,
+                "category" : skill.category,
+                "yearStarted" : skill.yearStarted
+            }
+        })
+    except:
+        return jsonify({ "failed" : "Something went wrong" })
+
 @app.route('/deleteprojectskill', methods=['GET', 'POST'])
 def deleteProjectSkill():
     try:
