@@ -17,6 +17,7 @@ app.config.from_object(Config)
 # you have to instatiate the database variables after the config has been set
 # reason is that the config holds the location of the database
 db = SQLAlchemy(app)
+
 migrate = Migrate(app, db)
 CORS(app)
 
@@ -27,4 +28,4 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 # from the app folder, import the routes.py file, and startup at the index route
-from app import routes
+from app import routes, models
