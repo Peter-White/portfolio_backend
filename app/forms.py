@@ -45,7 +45,7 @@ class RegisterForm(FlaskForm):
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")
     yearStarted = IntegerField('Year Started')
-    category = RadioField('Category', choices=[('database', 'Database Tools'), ('environment', 'Environment'), ('expertise','Expertise '), ('framework', 'Framework'), ('language', 'Language'), ('library', 'Library'), ('tool','Tool')])
+    category = RadioField('Category', choices=[('database', 'Database Tools'), ('environment', 'Environment'), ('expertise','Expertise '), ('framework', 'Framework'), ('language', 'Language'), ('library', 'Library'), ('system', 'Management System'), ('tool','Tool')])
     submit = SubmitField('Submit')
 
 class AddProjectForm(FlaskForm):
@@ -55,7 +55,8 @@ class AddProjectForm(FlaskForm):
     github = StringField("GitHub URL")
     language = SelectMultipleField('Languages Used', choices=skills("language"))
     library = SelectMultipleField('Libraries Used', choices=skills("library"))
-    database = SelectMultipleField('Databases Used', choices=skills("database"))
+    management_system = SelectMultipleField('Management Systems Used', choices=skills("system"))
+    database_tool = SelectMultipleField('Database Tools Used', choices=skills("database"))
     environment = SelectMultipleField('Environments Used', choices=skills("environment"))
     framework = SelectMultipleField('Frameworks Used', choices=skills("framework"))
     tool = SelectMultipleField('Tools Used', choices=skills("tool"))

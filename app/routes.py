@@ -67,18 +67,21 @@ def projects():
                     github = form.github.data
                 )
 
-                db.session.add(project)
-                db.session.commit()
+                skillData = form.language.data + form.library.data + form.management_system.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
+                print(skillData)
 
-                projectId = project.id
+                # db.session.add(project)
+                # db.session.commit()
 
-                skills = form.language.data + form.library.data + form.database.data + form.environment.data + form.framework.data + form.tool.data
+                # projectId = project.id
 
-                for skillId in skills:
-                    projectSkill = ProjectSkill(projectID = projectId, skillID = skillId)
+                for skillId in skillData:
+                    print(skillId)
+                #     projectSkill = ProjectSkill(projectID = projectId, skillID = skillId)
+                #     print(projectSkill)
 
-                    db.session.add(projectSkill)
-                    db.session.commit()
+                    # db.session.add(projectSkill)
+                    # db.session.commit()
 
                 return redirect(url_for('projects'))
             except:
