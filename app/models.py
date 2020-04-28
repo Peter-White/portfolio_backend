@@ -79,7 +79,7 @@ class Employee(db.Model):
         self.roleID = roleID
 
     def __repr__(self):
-        return '<Employee {}>'.format(self.userID)
+        return '<Employee {}>'.format(self.user_id)
 
 class ProjectSkill(db.Model):
     id = db.Column(db.Integer, primary_key=True)

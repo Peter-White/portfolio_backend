@@ -1,7 +1,7 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
 from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm
-from app.models import User, Skill, Project, ProjectSkill, ProjectImage
+from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_
@@ -215,6 +215,11 @@ def backRegister():
             db.session.add(user)
             db.session.commit()
 
+            userId = user.id
+            employee = Employee(user_id = userId, role_id = 3, confirmed = False)
+            db.session.add(employee)
+            db.session.commit()
+
             return redirect(url_for('backLogin'))
         except:
             flash("Couldn't register")
@@ -242,6 +247,8 @@ def register():
         user.set_password(data["password"])
         db.session.add(user)
         db.session.commit()
+
+
 
         return jsonify({ "success" : "User {} created".format(data['username']) })
     except:
