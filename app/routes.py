@@ -70,18 +70,17 @@ def projects():
                 skillData = form.language.data + form.library.data + form.management_system.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
                 print(skillData)
 
-                # db.session.add(project)
-                # db.session.commit()
+                db.session.add(project)
+                db.session.commit()
 
-                # projectId = project.id
+                projectId = project.id
 
                 for skillId in skillData:
-                    print(skillId)
-                #     projectSkill = ProjectSkill(projectID = projectId, skillID = skillId)
-                #     print(projectSkill)
+                    print(skillId, projectId)
+                    projectSkill = ProjectSkill(project_id = projectId, skill_id = skillId)
 
-                    # db.session.add(projectSkill)
-                    # db.session.commit()
+                    db.session.add(projectSkill)
+                    db.session.commit()
 
                 return redirect(url_for('projects'))
             except:
@@ -97,7 +96,7 @@ def project(id):
     if current_user.is_authenticated:
         form = ProjectImageForm()
         project = Project.query.filter_by(id = id).first()
-        images = ProjectImage.query.filter_by(projectID = id).all()
+        images = ProjectImage.query.filter_by(project_id = id).all()
 
         skills = {
             "language": [],
@@ -108,9 +107,9 @@ def project(id):
             "expertise": [],
             "framework": []
         }
-        projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
+        projectSkills = ProjectSkill.query.filter_by(project_id = id).all()
         for ps in projectSkills:
-            skill = Skill.query.get(ps.skillID)
+            skill = Skill.query.get(ps.skill_id)
             skills[skill.category].append(skill)
 
         if form.validate_on_submit():
@@ -133,7 +132,7 @@ def project(id):
                 with open(path, "rb") as imageFile:
                     str = base64.b64encode(imageFile.read())
 
-                pImage = ProjectImage(projectID = id, image = str)
+                pImage = ProjectImage(project_id = id, image = str)
 
                 os.remove(path)
 
@@ -160,8 +159,8 @@ def users():
 @login_required
 @app.route('/deleteproject/<int:id>')
 def deleteProject(id):
-    pImages = ProjectImage.query.filter_by(projectID = id).all()
-    pSkills = ProjectSkill.query.filter_by(projectID = id).all()
+    pImages = ProjectImage.query.filter_by(project_id = id).all()
+    pSkills = ProjectSkill.query.filter_by(project_id = id).all()
 
     for image in pImages:
         db.session.delete(image)
