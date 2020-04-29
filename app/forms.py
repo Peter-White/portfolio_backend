@@ -21,9 +21,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class RegisterForm(FlaskForm):
-    first_name = StringField("First Name")
-    last_name = StringField("Last Name")
-    company = StringField("Company Name")
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    company = StringField("Company Name", validators=[DataRequired()])
     username = StringField("Username", validators=[DataRequired()])
     email = StringField('Electronic Super Mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])

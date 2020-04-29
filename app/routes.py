@@ -178,6 +178,7 @@ def deleteProject(id):
 @app.route('/login', methods=['GET', 'POST'])
 def backLogin():
     form = LoginForm()
+    errors = []
 
     # if user is already logged in , send them to the profile page
     if current_user.is_authenticated:
@@ -187,13 +188,25 @@ def backLogin():
         # query the database for the user trying to log in
         user = User.query.filter_by(email=form.email.data).first()
 
-        if user is None or not user.check_password(form.password.data):
-            return redirect(url_for('index'))
+        if(user != None):
+            employee = Employee.query.filter_by(user_id=user.id).first()
 
-        login_user(user, remember = form.remember_me.data)
-        return redirect(url_for('index'))
+            if employee == None:
+                errors.append("Employee not found")
+            elif not user.check_password(form.password.data):
+                errors.append("Password does not match")
+            elif not employee.confirmed:
+                errors.append("Employee not confirmed")
+            elif employee.role_id == 4:
+                errors.append("Employees only")
 
-    return render_template('login.html', title="Login", form=form)
+            if len(errors) < 1:
+                login_user(user, remember = form.remember_me.data)
+                return redirect(url_for('index'))
+        else:
+            errors.append("User not found")
+
+    return render_template('login.html', title="Login", form=form, errors=errors)
 
 @login_required
 @app.route('/logout')
