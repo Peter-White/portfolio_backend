@@ -24,23 +24,16 @@ class RegisterForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     company = StringField("Company Name", validators=[DataRequired()])
-    username = StringField("Username", validators=[DataRequired()])
     email = StringField('Electronic Super Mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Submit')
 
-    def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        if user is not None:
-            flash('Sorry but those credentials are already in use')
-            raise ValidationError('Use a different username/email.')
-
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             flash('Sorry but those credentials are already in use')
-            raise ValidationError('Use a different username/email.')
+            raise ValidationError('Use a different email.')
 
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")

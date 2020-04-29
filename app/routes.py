@@ -223,7 +223,7 @@ def backRegister():
 
     if form.validate_on_submit():
         try:
-            user = User(first_name=form.first_name.data, last_name=form.last_name.data, company=form.company.data, username=form.username.data, email=form.email.data)
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, company=form.company.data, email=form.email.data)
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
@@ -256,14 +256,14 @@ def register():
             algorithm=["HS256"]
         )
 
-        user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], username=data["username"], email=data["email"])
+        user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], email=data["email"])
         user.set_password(data["password"])
         db.session.add(user)
         db.session.commit()
 
 
 
-        return jsonify({ "success" : "User {} created".format(data['username']) })
+        return jsonify({ "success" : "User {} created".format(data['email']) })
     except:
         return jsonify({ "error": "Failed to create user" })
 
@@ -300,7 +300,6 @@ def getUsers():
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "company": user.company,
-                "username": user.username,
                 "email": user.email,
                 "password_hash": user.password_hash
             })
@@ -326,14 +325,13 @@ def getUser():
         if "user_id" in data:
             user = User.query.filter_by(id = data["user_id"]).first()
         else:
-            user = User.query.filter(or_(User.email == data["email"], User.username == data["username"])).first()
+            user = User.query.filter_by(email=data["email"]).first()
 
         if user:
             userJSON["id"] = user.id
             userJSON["first_name"] = user.first_name
             userJSON["last_name"] = user.last_name
             userJSON["company"] = user.company
-            userJSON["username"] = user.username
             userJSON["email"] = user.email
 
         return jsonify(userJSON)
