@@ -124,7 +124,6 @@ def project(id):
                     os.makedirs(path)
 
                 path = os.path.join(path, filename)
-                print(path)
 
                 data.save(path)
 
@@ -140,10 +139,10 @@ def project(id):
                 db.session.commit()
 
                 flash("Image posted")
-                return redirect(url_for('projects'))
+                return redirect(url_for('project', id=id))
             except:
                 flash("Didn't post project image")
-                return redirect(url_for('projects'))
+                return redirect(url_for('project', id=id))
 
         return render_template('project.html', project=project, skills=skills, images=images, form=form)
     else:
