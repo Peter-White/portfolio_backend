@@ -67,8 +67,7 @@ def projects():
                     github = form.github.data
                 )
 
-                skillData = form.language.data + form.library.data + form.management_system.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
-                print(skillData)
+                skillData = form.language.data + form.library.data + form.platform.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
 
                 db.session.add(project)
                 db.session.commit()
@@ -76,7 +75,6 @@ def projects():
                 projectId = project.id
 
                 for skillId in skillData:
-                    print(skillId, projectId)
                     projectSkill = ProjectSkill(project_id = projectId, skill_id = skillId)
 
                     db.session.add(projectSkill)
@@ -102,6 +100,7 @@ def project(id):
             "language": [],
             "environment": [],
             "tool": [],
+            "platform": [],
             "library": [],
             "database": [],
             "expertise": [],
@@ -125,6 +124,7 @@ def project(id):
                     os.makedirs(path)
 
                 path = os.path.join(path, filename)
+                print(path)
 
                 data.save(path)
 
@@ -142,7 +142,7 @@ def project(id):
                 flash("Image posted")
                 return redirect(url_for('projects'))
             except:
-                flash("Didn't post project")
+                flash("Didn't post project image")
                 return redirect(url_for('projects'))
 
         return render_template('project.html', project=project, skills=skills, images=images, form=form)

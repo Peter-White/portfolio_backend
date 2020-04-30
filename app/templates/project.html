@@ -59,7 +59,7 @@
         </ul>
       </div>
       <div class="col-md-3">
-        <h4>Databases</h4>
+        <h4>Database Tools</h4>
         <ul>
         {% for skill in skills["database"] %}
           <li>{{skill.title}}</li>
@@ -69,7 +69,7 @@
       <div class="col-md-3">
         <h4>Expertise</h4>
         <ul>
-        {% for skill in skills["framework"] %}
+        {% for skill in skills["expertise"] %}
           <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
@@ -79,7 +79,15 @@
       <div class="col-md-3">
         <h4>Frameworks</h4>
         <ul>
-        {% for skill in skills["expertise"] %}
+        {% for skill in skills["framework"] %}
+          <li>{{skill.title}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h4>Platforms</h4>
+        <ul>
+        {% for skill in skills["platform"] %}
           <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
@@ -87,9 +95,20 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        {% for image in images %}
-          <img src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
-        {% endfor %}
+        <div class="row">
+          {% for image in images %}
+            <div class="col-md-4">
+              <div class="thumbnail">
+                <img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
+              </div>
+            </div>
+
+            {% if loop.index is divisibleby 3 and not loop.last %}
+              </div>
+              <div class="row">
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
     <div class="row">
