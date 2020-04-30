@@ -5,6 +5,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
+        <a class="btn btn-danger deleteButton" href="/deleteproject/{{project.id}}" role="button">Delete Project</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
         <h1>{{project.title}}</h1>
       </div>
     </div>
@@ -15,12 +20,12 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <p>{{project.url}}</p>
+        <h4><b>Project URL:</b> {{project.url}}</h4>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <p>{{project.github}}</p>
+        <h4><b>Github URL:</b> {{project.github}}</h4>
       </div>
     </div>
     <div class="row">
@@ -112,11 +117,6 @@
             {% endif %}
           {% endfor %}
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <a href="/deleteproject/{{project.id}}">Delete Project</a>
       </div>
     </div>
     <div class="row">
