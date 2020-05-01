@@ -104,18 +104,58 @@
           </div>
         </div>
         <div class="row">
-          {% for image in images %}
-            <div class="col-md-4">
-              <div class="thumbnail">
-                <img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
-              </div>
-            </div>
-
-            {% if loop.index is divisibleby 3 and not loop.last %}
-              </div>
-              <div class="row">
-            {% endif %}
-          {% endfor %}
+          <div class="col-md-6">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for image in images %}
+                  <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>
+                      <div class="thumbnail">
+                        <img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
+                      </div>
+                    </td>
+                    <td>
+                      <a class="btn btn-danger deleteImage" href="#" role="button">Delete</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Video</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for video in videos %}
+                  <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>
+                      <video controls>
+                        <source src="/static/videos/{{video.name}}" type="{{video.type}}">
+                      </video>
+                    </td>
+                    <td>
+                      <a class="btn btn-danger deleteVideo" href="#" role="button">Delete</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

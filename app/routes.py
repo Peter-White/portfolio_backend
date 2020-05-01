@@ -96,6 +96,7 @@ def project(id):
         videoForm = ProjectVideoForm()
         project = Project.query.filter_by(id = id).first()
         images = ProjectImage.query.filter_by(project_id = id).all()
+        videos = ProjectVideo.query.filter_by(project_id = id).all()
 
         skills = {
             "language": [],
@@ -182,7 +183,7 @@ def project(id):
                 flash("Couldn't post project video")
                 return redirect(url_for('project', id=id))
 
-        return render_template('project.html', project=project, skills=skills, images=images, imageForm=imageForm, videoForm=videoForm)
+        return render_template('project.html', project=project, skills=skills, images=images, videos=videos, imageForm=imageForm, videoForm=videoForm)
     else:
         return redirect(url_for('backLogin'))
 
