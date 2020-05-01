@@ -29,136 +29,37 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <h4>Languages</h4>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Language
-          </button>
-          <div id="language" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            {% for skill in otherSkills["language"] %}
-              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
-            {% endfor %}
-          </div>
-        </div>
-        <ul class="language">
+        <ul>
         {% for skill in skills["language"] %}
-          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
+          <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <h4>Environments</h4>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Environment
-          </button>
-          <div id="environment" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            {% for skill in otherSkills["environment"] %}
-              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
-            {% endfor %}
-          </div>
-        </div>
-        <ul class="environment">
+        <ul>
         {% for skill in skills["environment"] %}
-          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
+          <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <h4>Tools</h4>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Tool
-          </button>
-          <div id="tool" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            {% for skill in otherSkills["tool"] %}
-              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
-            {% endfor %}
-          </div>
-        </div>
-        <ul class="tool">
+        <ul>
         {% for skill in skills["tool"] %}
-          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
+          <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
       </div>
-    </div>
-    <div class="row">
       <div class="col-md-3">
         <h4>Libraries</h4>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Library
-          </button>
-          <div id="library" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            {% for skill in otherSkills["library"] %}
-              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
-            {% endfor %}
-          </div>
-        </div>
-        <ul class="library">
+        <ul>
         {% for skill in skills["library"] %}
-          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
+          <li>{{skill.title}}</li>
         {% endfor %}
         </ul>
-      </div>
-      <div class="col-md-4">
-        <h4>Frameworks</h4>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Framework
-          </button>
-          <div id="framework" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            {% for skill in otherSkills["framework"] %}
-              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
-            {% endfor %}
-          </div>
-        </div>
-        <ul class="framework">
-        {% for skill in skills["framework"] %}
-          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
-        {% endfor %}
-        </ul>
-      </div>
-      <div class="col-md-4">
-        <h4>Databases</h4>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add Database
-          </button>
-          <div id="database" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            {% for skill in otherSkills["database"] %}
-              <button id={{skill.id}} class="dropdown-item" type="button">{{skill.title}}</button>
-            {% endfor %}
-          </div>
-        </div>
-        <ul class="database">
-        {% for skill in skills["database"] %}
-          <li id="skill" class={{skill.id}}>{{skill.title}}<span class="deleteX">✘</span></li>
-        {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table">
-          <thead></thead>
-          <tbody>
-            <tr>
-              {% for image in images %}
-                {% if loop.index % 5 == 0 %}
-                  <td><img class={{image.id}} src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></td>
-                  </tr>
-                  <tr>
-                {% else %}
-                  <td><img class={{image.id}} src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></td>
-                {% endif %}
-              {% endfor %}
-            </tr>
-          </tbody>
-        </table>
-        {% endfor %}
       </div>
     </div>
     <div class="row">
@@ -198,62 +99,75 @@
     <div class="row">
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-12">
-            <h3>Images</h3>
-          </div>
-        </div>
-        <div class="row">
           <div class="col-md-6">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for image in images %}
-                  <tr>
-                    <th scope="row">{{loop.index}}</th>
-                    <td>
-                      <div class="thumbnail">
-                        <img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
-                      </div>
-                    </td>
-                    <td>
-                      <a class="btn btn-danger deleteImage" href="#" role="button">Delete</a>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Images</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for image in images %}
+                    <tr>
+                      <th scope="row">{{loop.index}}</th>
+                      <td>
+                        <div class="thumbnail">
+                          <img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
+                        </div>
+                      </td>
+                      <td>
+                        <a class="btn btn-danger deleteImage" href="#" role="button">Delete</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
           <div class="col-md-6">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Video</th>
-                  <th scope="col">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for video in videos %}
-                  <tr>
-                    <th scope="row">{{loop.index}}</th>
-                    <td>
-                      <video controls>
-                        <source src="/static/videos/{{video.name}}" type="{{video.type}}">
-                      </video>
-                    </td>
-                    <td>
-                      <a class="btn btn-danger deleteVideo" href="#" role="button">Delete</a>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Videos</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Video</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for video in videos %}
+                    <tr>
+                      <th scope="row">{{loop.index}}</th>
+                      <td>
+                        <video controls>
+                          <source src="/static/videos/{{video.name}}" type="{{video.type}}">
+                          </video>
+                        </td>
+                        <td>
+                          <a class="btn btn-danger deleteVideo" href="#" role="button">Delete</a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -272,26 +186,6 @@
       <div class="col-md-6">
         <div id="form-container" class="hide">
           {{ wtf.quick_form(videoForm) }}
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 delete">
-        <a href="/deleteproject/{{project.id}}">Delete Project</a>
-      </div>
-    </div>
-  </div>
-  <div id="overlay">
-    <div class="container card-container">
-      <div class="row">
-        <div class="col-md-8 offset-md-2">
-          <div class="card">
-            <img class="card-img-top" src="#" alt="Card image cap" />
-            <div class="card-body">
-              <h3 style="color:red" class="card-title"></h3>
-              <a href="#" class="btn btn-danger">Delete</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>

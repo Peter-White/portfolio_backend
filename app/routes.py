@@ -113,10 +113,6 @@ def project(id):
         for ps in projectSkills:
             skill = Skill.query.get(ps.skill_id)
             skills[skill.category].append(skill)
-            allSkills.remove(skill)
-
-        for skill in allSkills:
-            otherSkills[skill.category].append(skill)
 
         if imageForm.validate_on_submit():
             try:
@@ -154,7 +150,6 @@ def project(id):
         if videoForm.validate_on_submit():
             try:
                 data = videoForm.video.data
-                print(data.content_type)
 
                 path = os.path.join(
                     app.root_path, 'static', 'videos'
@@ -193,7 +188,7 @@ def project(id):
     else:
         return redirect(url_for('backLogin'))
 
-@app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])
+@app.route('/deleteimage/<int:id>', methods=['GET'])
 def deleteImage(id):
     try:
         pImage = ProjectImage.query.get(id)
@@ -201,7 +196,27 @@ def deleteImage(id):
         db.session.delete(pImage)
         db.session.commit()
 
-        return jsonify({ "success" : "image deleted" })
+        return redirect(url_for('projects'))
+    except:
+        flash("Something went wrong")
+        return redirect(url_for('projects'))
+
+@app.route('/deletevideo/<int:id>', methods=['GET'])
+def deleteVideo(id):
+    try:
+        pVideo = ProjectVideo.query.get(id)
+
+        path = os.path.join(
+            app.root_path, 'static', 'videos', pVideo.name
+        )
+
+        if(os.path.exists(path)):
+            os.remove(path)
+
+        db.session.delete(pVideo)
+        db.session.commit()
+
+        return jsonify({ "success" : "video deleted" })
     except:
         return jsonify({ "failed" : "Something went wrong" })
 
