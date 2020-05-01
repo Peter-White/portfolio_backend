@@ -1,17 +1,19 @@
 $(document).ready(function(){
   let $displayForm = $('.displayForm');
-  let $form_container = $('#form-container');
+  let $form_container = $('div#form-container');
 
   $displayForm.click(function(e) {
     e.preventDefault();
-    if($form_container.hasClass("hide")) {
-      $displayForm.html('-');
-      $form_container.removeClass("hide");
-      $form_container.addClass("show");
-    } else {
-      $displayForm.html('+');
-      $form_container.removeClass("show");
-      $form_container.addClass("hide");
-    }
+    $form_container.each(function() {
+      if($(this).hasClass("hide")) {
+        $displayForm.html('-');
+        $(this).removeClass("hide");
+        $(this).addClass("show");
+      } else {
+        $displayForm.html('+');
+        $(this).removeClass("show");
+        $(this).addClass("hide");
+      }
+    });
   });
 });

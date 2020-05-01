@@ -125,9 +125,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div id="form-container" class="hide">
-          {{ wtf.quick_form(form) }}
+          {{ wtf.quick_form(imageForm) }}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="form-container" class="hide">
+          {{ wtf.quick_form(videoForm) }}
         </div>
       </div>
     </div>

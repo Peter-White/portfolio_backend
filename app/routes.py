@@ -1,7 +1,7 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm
-from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee
+from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm, ProjectVideoForm
+from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee, ProjectVideo
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_
@@ -92,7 +92,8 @@ def projects():
 @app.route('/projects/<int:id>', methods=['GET', 'POST'])
 def project(id):
     if current_user.is_authenticated:
-        form = ProjectImageForm()
+        imageForm = ProjectImageForm()
+        videoForm = ProjectVideoForm()
         project = Project.query.filter_by(id = id).first()
         images = ProjectImage.query.filter_by(project_id = id).all()
 
@@ -111,9 +112,9 @@ def project(id):
             skill = Skill.query.get(ps.skill_id)
             skills[skill.category].append(skill)
 
-        if form.validate_on_submit():
+        if imageForm.validate_on_submit():
             try:
-                data = form.image.data
+                data = imageForm.image.data
                 filename = secure_filename(data.filename)
 
                 path = os.path.join(
@@ -141,10 +142,47 @@ def project(id):
                 flash("Image posted")
                 return redirect(url_for('project', id=id))
             except:
-                flash("Didn't post project image")
+                flash("Couldn't post project image")
                 return redirect(url_for('project', id=id))
 
-        return render_template('project.html', project=project, skills=skills, images=images, form=form)
+        if videoForm.validate_on_submit():
+            try:
+                data = videoForm.video.data
+                print(data.content_type)
+
+                path = os.path.join(
+                    app.root_path, 'static', 'videos'
+                )
+
+                i = 1
+                name = data.filename
+                while True:
+                    name = f"{i}_{data.filename}"
+
+                    if os.path.exists(f"{path}\\{name}"):
+                        i += 1
+                    else:
+                        break
+
+                path = os.path.join(
+                    path, name
+                )
+
+                data.save(path)
+
+                pVideo = ProjectVideo(project_id=id, name=name, type=data.content_type)
+
+                db.session.add(pVideo)
+                db.session.commit()
+
+                flash("Video posted")
+                return redirect(url_for('project', id=id))
+
+            except:
+                flash("Couldn't post project video")
+                return redirect(url_for('project', id=id))
+
+        return render_template('project.html', project=project, skills=skills, images=images, imageForm=imageForm, videoForm=videoForm)
     else:
         return redirect(url_for('backLogin'))
 

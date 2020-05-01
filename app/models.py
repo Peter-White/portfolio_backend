@@ -69,7 +69,7 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    role_id = db.Column(db.String(50), db.ForeignKey('role.id'), nullable=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=True)
 
     def confirm_employee(self):
         self.confirmed = True
@@ -92,6 +92,12 @@ class ProjectImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
+
+class ProjectVideo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    type = db.Column(db.String(10), nullable=False)
 
 @login.user_loader
 def load_user(id):
