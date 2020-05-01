@@ -1,7 +1,7 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
-from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm
-from app.models import User, Skill, Project, ProjectSkill, ProjectImage
+from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm, ProjectVideoForm
+from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee, ProjectVideo
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_
@@ -67,15 +67,15 @@ def projects():
                     github = form.github.data
                 )
 
+                skillData = form.language.data + form.library.data + form.platform.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
+
                 db.session.add(project)
                 db.session.commit()
 
                 projectId = project.id
 
-                skills = form.language.data + form.library.data + form.database.data + form.environment.data + form.framework.data + form.tool.data
-
-                for skillId in skills:
-                    projectSkill = ProjectSkill(projectID = projectId, skillID = skillId)
+                for skillId in skillData:
+                    projectSkill = ProjectSkill(project_id = projectId, skill_id = skillId)
 
                     db.session.add(projectSkill)
                     db.session.commit()
@@ -92,20 +92,28 @@ def projects():
 @app.route('/projects/<int:id>', methods=['GET', 'POST'])
 def project(id):
     if current_user.is_authenticated:
-        form = ProjectImageForm()
+        imageForm = ProjectImageForm()
+        videoForm = ProjectVideoForm()
         project = Project.query.filter_by(id = id).first()
+<<<<<<< HEAD
         images = ProjectImage.query.filter_by(projectID = id).all()
         allSkills = Skill.query.all()
+=======
+        images = ProjectImage.query.filter_by(project_id = id).all()
+        videos = ProjectVideo.query.filter_by(project_id = id).all()
+>>>>>>> master
 
         skills = {
             "language": [],
             "environment": [],
             "tool": [],
+            "platform": [],
             "library": [],
             "database": [],
             "expertise": [],
             "framework": []
         }
+<<<<<<< HEAD
         otherSkills = {
             "language": [],
             "environment": [],
@@ -117,17 +125,20 @@ def project(id):
         }
 
         projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
+=======
+        projectSkills = ProjectSkill.query.filter_by(project_id = id).all()
+>>>>>>> master
         for ps in projectSkills:
-            skill = Skill.query.get(ps.skillID)
+            skill = Skill.query.get(ps.skill_id)
             skills[skill.category].append(skill)
             allSkills.remove(skill)
 
         for skill in allSkills:
             otherSkills[skill.category].append(skill)
 
-        if form.validate_on_submit():
+        if imageForm.validate_on_submit():
             try:
-                data = form.image.data
+                data = imageForm.image.data
                 filename = secure_filename(data.filename)
 
                 path = os.path.join(
@@ -145,7 +156,7 @@ def project(id):
                 with open(path, "rb") as imageFile:
                     str = base64.b64encode(imageFile.read())
 
-                pImage = ProjectImage(projectID = id, image = str)
+                pImage = ProjectImage(project_id = id, image = str)
 
                 os.remove(path)
 
@@ -155,10 +166,54 @@ def project(id):
                 flash("Image posted")
                 return redirect(url_for('project', id=id))
             except:
+<<<<<<< HEAD
                 flash("Didn't post project")
                 return redirect(url_for('project', id=id))
 
         return render_template('project.html', project=project, skills=skills, otherSkills=otherSkills, images=images, form=form)
+=======
+                flash("Couldn't post project image")
+                return redirect(url_for('project', id=id))
+
+        if videoForm.validate_on_submit():
+            try:
+                data = videoForm.video.data
+                print(data.content_type)
+
+                path = os.path.join(
+                    app.root_path, 'static', 'videos'
+                )
+
+                i = 1
+                name = data.filename
+                while True:
+                    name = f"{i}_{data.filename}"
+
+                    if os.path.exists(f"{path}\\{name}"):
+                        i += 1
+                    else:
+                        break
+
+                path = os.path.join(
+                    path, name
+                )
+
+                data.save(path)
+
+                pVideo = ProjectVideo(project_id=id, name=name, type=data.content_type)
+
+                db.session.add(pVideo)
+                db.session.commit()
+
+                flash("Video posted")
+                return redirect(url_for('project', id=id))
+
+            except:
+                flash("Couldn't post project video")
+                return redirect(url_for('project', id=id))
+
+        return render_template('project.html', project=project, skills=skills, images=images, videos=videos, imageForm=imageForm, videoForm=videoForm)
+>>>>>>> master
     else:
         return redirect(url_for('backLogin'))
 
@@ -230,8 +285,8 @@ def users():
 @login_required
 @app.route('/deleteproject/<int:id>')
 def deleteProject(id):
-    pImages = ProjectImage.query.filter_by(projectID = id).all()
-    pSkills = ProjectSkill.query.filter_by(projectID = id).all()
+    pImages = ProjectImage.query.filter_by(project_id = id).all()
+    pSkills = ProjectSkill.query.filter_by(project_id = id).all()
 
     for image in pImages:
         db.session.delete(image)
@@ -248,6 +303,7 @@ def deleteProject(id):
 @app.route('/login', methods=['GET', 'POST'])
 def backLogin():
     form = LoginForm()
+    errors = []
 
     # if user is already logged in , send them to the profile page
     if current_user.is_authenticated:
@@ -257,13 +313,25 @@ def backLogin():
         # query the database for the user trying to log in
         user = User.query.filter_by(email=form.email.data).first()
 
-        if user is None or not user.check_password(form.password.data):
-            return redirect(url_for('index'))
+        if(user != None):
+            employee = Employee.query.filter_by(user_id=user.id).first()
 
-        login_user(user, remember = form.remember_me.data)
-        return redirect(url_for('index'))
+            if employee == None:
+                errors.append("Employee not found")
+            elif not user.check_password(form.password.data):
+                errors.append("Password does not match")
+            elif not employee.confirmed:
+                errors.append("Employee not confirmed")
+            elif employee.role_id == 4:
+                errors.append("Employees only")
 
-    return render_template('login.html', title="Login", form=form)
+            if len(errors) < 1:
+                login_user(user, remember = form.remember_me.data)
+                return redirect(url_for('index'))
+        else:
+            errors.append("User not found")
+
+    return render_template('login.html', title="Login", form=form, errors=errors)
 
 @login_required
 @app.route('/logout')
@@ -280,9 +348,14 @@ def backRegister():
 
     if form.validate_on_submit():
         try:
-            user = User(first_name=form.first_name.data, last_name=form.last_name.data, company=form.company.data, username=form.username.data, email=form.email.data)
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, company=form.company.data, email=form.email.data)
             user.set_password(form.password.data)
             db.session.add(user)
+            db.session.commit()
+
+            userId = user.id
+            employee = Employee(user_id = userId, role_id = 3, confirmed = False)
+            db.session.add(employee)
             db.session.commit()
 
             return redirect(url_for('backLogin'))
@@ -308,12 +381,14 @@ def register():
             algorithm=["HS256"]
         )
 
-        user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], username=data["username"], email=data["email"])
+        user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], email=data["email"])
         user.set_password(data["password"])
         db.session.add(user)
         db.session.commit()
 
-        return jsonify({ "success" : "User {} created".format(data['username']) })
+
+
+        return jsonify({ "success" : "User {} created".format(data['email']) })
     except:
         return jsonify({ "error": "Failed to create user" })
 
@@ -350,7 +425,6 @@ def getUsers():
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "company": user.company,
-                "username": user.username,
                 "email": user.email,
                 "password_hash": user.password_hash
             })
@@ -376,14 +450,13 @@ def getUser():
         if "user_id" in data:
             user = User.query.filter_by(id = data["user_id"]).first()
         else:
-            user = User.query.filter(or_(User.email == data["email"], User.username == data["username"])).first()
+            user = User.query.filter_by(email=data["email"]).first()
 
         if user:
             userJSON["id"] = user.id
             userJSON["first_name"] = user.first_name
             userJSON["last_name"] = user.last_name
             userJSON["company"] = user.company
-            userJSON["username"] = user.username
             userJSON["email"] = user.email
 
         return jsonify(userJSON)

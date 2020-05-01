@@ -21,31 +21,24 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class RegisterForm(FlaskForm):
-    first_name = StringField("First Name")
-    last_name = StringField("Last Name")
-    company = StringField("Company Name")
-    username = StringField("Username", validators=[DataRequired()])
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    company = StringField("Company Name", validators=[DataRequired()])
     email = StringField('Electronic Super Mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Submit')
 
-    def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        if user is not None:
-            flash('Sorry but those credentials are already in use')
-            raise ValidationError('Use a different username/email.')
-
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             flash('Sorry but those credentials are already in use')
-            raise ValidationError('Use a different username/email.')
+            raise ValidationError('Use a different email.')
 
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")
     yearStarted = IntegerField('Year Started')
-    category = RadioField('Category', choices=[('database', 'Database Tools'), ('environment', 'Environment'), ('expertise','Expertise '), ('framework', 'Framework'), ('language', 'Language'), ('library', 'Library'), ('tool','Tool')])
+    category = RadioField('Category', choices=[('database', 'Database Tools'), ('environment', 'Environment'), ('expertise','Expertise '), ('platform', 'Platform'), ('framework', 'Framework'), ('language', 'Language'), ('library', 'Library'), ('tool','Tool')])
     submit = SubmitField('Submit')
 
 class AddProjectForm(FlaskForm):
@@ -55,7 +48,8 @@ class AddProjectForm(FlaskForm):
     github = StringField("GitHub URL")
     language = SelectMultipleField('Languages Used', choices=skills("language"))
     library = SelectMultipleField('Libraries Used', choices=skills("library"))
-    database = SelectMultipleField('Databases Used', choices=skills("database"))
+    platform = SelectMultipleField('Platforms Used', choices=skills("platform"))
+    database_tool = SelectMultipleField('Database Tools Used', choices=skills("database"))
     environment = SelectMultipleField('Environments Used', choices=skills("environment"))
     framework = SelectMultipleField('Frameworks Used', choices=skills("framework"))
     tool = SelectMultipleField('Tools Used', choices=skills("tool"))
@@ -63,4 +57,8 @@ class AddProjectForm(FlaskForm):
 
 class ProjectImageForm(FlaskForm):
     image = FileField('image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    submit = SubmitField('Submit')
+
+class ProjectVideoForm(FlaskForm):
+    video = FileField('video', validators=[FileRequired(), FileAllowed(['mp4', 'avi'], 'Videos only')])
     submit = SubmitField('Submit')

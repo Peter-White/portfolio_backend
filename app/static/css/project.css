@@ -66,3 +66,7 @@ span.deleteX {
   float: right;
   color: red;
 }
+
+a.btn.btn-danger.deleteButton {
+    float: right;
+}

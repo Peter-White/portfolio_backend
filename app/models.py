@@ -5,12 +5,34 @@ from flask_login import UserMixin
 from time import time
 import jwt
 
+class Skill(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), unique=True, nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    year_started = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return '<Skill {}>'.format(self.title)
+
+class Role(db.Model):
+    id = db.Column(db.String(50), primary_key=True)
+    title = db.Column(db.String(50), unique=True, nullable=False)
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=True, nullable=False)
+    url = db.Column(db.String(500), unique=True, nullable=True)
+    description = db.Column(db.String(1000), nullable=False)
+    github = db.Column(db.String(500), unique=True, nullable=True)
+
+    def __repr__(self):
+        return '<Project {}>'.format(self.title)
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     company = db.Column(db.String(50))
-    username = db.Column(db.String(30), unique=True, index=True)
     email = db.Column(db.String(120), unique=True, index=True)
     password_hash = db.Column(db.String(256))
 
@@ -45,9 +67,9 @@ class User(db.Model, UserMixin):
 
 class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    roleID = db.Column(db.String(50), db.ForeignKey('role.id'), nullable=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=True)
 
     def confirm_employee(self):
         self.confirmed = True
@@ -56,43 +78,30 @@ class Employee(db.Model):
         self.roleID = roleID
 
     def __repr__(self):
-        return '<Employee {}>'.format(self.userID)
-
-class Role(db.Model):
-    id = db.Column(db.String(50), primary_key=True)
-    title = db.Column(db.String(50), unique=True, nullable=False)
-
-class Project(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), unique=True, nullable=False)
-    url = db.Column(db.String(500), unique=True, nullable=True)
-    description = db.Column(db.String(1000), nullable=False)
-    github = db.Column(db.String(500), unique=True, nullable=True)
-
-    def __repr__(self):
-        return '<Project {}>'.format(self.title)
-
-class Skill(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(50), unique=True, nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    yearStarted = db.Column(db.Integer, nullable=False)
-
-    def __repr__(self):
-        return '<Skill {}>'.format(self.title)
+        return '<Employee {}>'.format(self.user_id)
 
 class ProjectSkill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    projectID = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    skillID = db.Column(db.Integer, db.ForeignKey('skill.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    skill_id = db.Column(db.Integer, db.ForeignKey('skill.id'), nullable=False)
 
     def __repr__(self):
+<<<<<<< HEAD
         return '<ProjectSkill {}>'.format(str(self.projectID) + " - " + str(self.skillID))
+=======
+        return '<ProjectSkill {}>'.format(self.project_id + " - " + self.skill_id)
+>>>>>>> master
 
 class ProjectImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    projectID = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
+
+class ProjectVideo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    type = db.Column(db.String(10), nullable=False)
 
 @login.user_loader
 def load_user(id):

@@ -9,10 +9,8 @@
           <h1>{{ title }}</h1>
 
           <!-- displays error messages for validators -->
-          {% for fieldName, errorMessages in form.errors.items() %}
-            {% for error in errorMessages %}
-              <p class="error">{{ fieldName.title() }}: {{ error }}</p>
-            {% endfor %}
+          {% for error in errors %}
+            <p class="error">* {{ error }}</p>
           {% endfor %}
 
           {{ wtf.quick_form(form) }}

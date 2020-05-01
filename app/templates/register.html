@@ -7,14 +7,6 @@
       <div class="row">
         <div class="col-md-4 offset-md-4">
           <h1>{{ title }}</h1>
-
-          <!-- displays error messages for validators -->
-          {% for fieldName, errorMessages in form.errors.items() %}
-            {% for error in errorMessages %}
-              <p class="error">{{ fieldName.title() }}: {{ error }}</p>
-            {% endfor %}
-          {% endfor %}
-
           {{ wtf.quick_form(form) }}
         </div> <!-- ends col 4 -->
       </div> <!-- ends row -->
