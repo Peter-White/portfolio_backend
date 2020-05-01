@@ -56,9 +56,9 @@ class AddProjectForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class ProjectImageForm(FlaskForm):
-    image = FileField('image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    image = FileField('Add Image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
     submit = SubmitField('Submit')
 
 class ProjectVideoForm(FlaskForm):
-    video = FileField('video', validators=[FileRequired(), FileAllowed(['mp4', 'avi'], 'Videos only')])
+    video = FileField('Add Video', validators=[FileRequired(), FileAllowed(['mp4', 'avi'], 'Videos only')])
     submit = SubmitField('Submit')

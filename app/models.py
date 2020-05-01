@@ -93,11 +93,17 @@ class ProjectImage(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
 
+    def __repr__(self):
+        return '<ProjectImage {} - {}>'.format(self.id, self.project_id)
+
 class ProjectVideo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     name = db.Column(db.String(50), nullable=False)
     type = db.Column(db.String(10), nullable=False)
+
+    def __repr__(self):
+        return '<ProjectVideo {} - {} - {} - {}>'.format(self.id, self.project_id, self.name, self.type)
 
 @login.user_loader
 def load_user(id):
