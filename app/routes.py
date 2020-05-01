@@ -95,13 +95,8 @@ def project(id):
         imageForm = ProjectImageForm()
         videoForm = ProjectVideoForm()
         project = Project.query.filter_by(id = id).first()
-<<<<<<< HEAD
-        images = ProjectImage.query.filter_by(projectID = id).all()
-        allSkills = Skill.query.all()
-=======
         images = ProjectImage.query.filter_by(project_id = id).all()
         videos = ProjectVideo.query.filter_by(project_id = id).all()
->>>>>>> master
 
         skills = {
             "language": [],
@@ -113,21 +108,8 @@ def project(id):
             "expertise": [],
             "framework": []
         }
-<<<<<<< HEAD
-        otherSkills = {
-            "language": [],
-            "environment": [],
-            "tool": [],
-            "library": [],
-            "database": [],
-            "expertise": [],
-            "framework": []
-        }
 
-        projectSkills = ProjectSkill.query.filter_by(projectID = id).all()
-=======
         projectSkills = ProjectSkill.query.filter_by(project_id = id).all()
->>>>>>> master
         for ps in projectSkills:
             skill = Skill.query.get(ps.skill_id)
             skills[skill.category].append(skill)
@@ -166,12 +148,6 @@ def project(id):
                 flash("Image posted")
                 return redirect(url_for('project', id=id))
             except:
-<<<<<<< HEAD
-                flash("Didn't post project")
-                return redirect(url_for('project', id=id))
-
-        return render_template('project.html', project=project, skills=skills, otherSkills=otherSkills, images=images, form=form)
-=======
                 flash("Couldn't post project image")
                 return redirect(url_for('project', id=id))
 
@@ -213,7 +189,7 @@ def project(id):
                 return redirect(url_for('project', id=id))
 
         return render_template('project.html', project=project, skills=skills, images=images, videos=videos, imageForm=imageForm, videoForm=videoForm)
->>>>>>> master
+
     else:
         return redirect(url_for('backLogin'))
 
