@@ -50,42 +50,10 @@ def skills():
 
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
-    form = AddProjectForm()
     projects = Project.query.all()
 
     if current_user.is_authenticated:
-        if form.validate_on_submit():
-            try:
-                if(form.url.data == "" and form.github.data == ""):
-                    flash("One URL required")
-                    return redirect(url_for('projects'))
-
-                project = Project(
-                    title = form.title.data,
-                    description = form.description.data,
-                    url = form.url.data,
-                    github = form.github.data
-                )
-
-                skillData = form.language.data + form.library.data + form.platform.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
-
-                db.session.add(project)
-                db.session.commit()
-
-                projectId = project.id
-
-                for skillId in skillData:
-                    projectSkill = ProjectSkill(project_id = projectId, skill_id = skillId)
-
-                    db.session.add(projectSkill)
-                    db.session.commit()
-
-                return redirect(url_for('projects'))
-            except:
-                flash("Didn't post project")
-                return redirect(url_for('projects'))
-
-        return render_template('projects.html', projects=projects, form=form)
+        return render_template('projects.html', projects=projects)
     else:
         return redirect(url_for('backLogin'))
 
@@ -185,6 +153,46 @@ def project(id):
 
         return render_template('project.html', project=project, skills=skills, images=images, videos=videos, imageForm=imageForm, videoForm=videoForm)
 
+    else:
+        return redirect(url_for('backLogin'))
+
+@app.route('/createproject', methods=['GET', 'POST'])
+def createImage():
+    form = AddProjectForm()
+
+    if current_user.is_authenticated:
+        if form.validate_on_submit():
+            try:
+                if(form.url.data == "" and form.github.data == ""):
+                    flash("One URL required")
+                    return redirect(url_for('projects'))
+
+                project = Project(
+                    title = form.title.data,
+                    description = form.description.data,
+                    url = form.url.data,
+                    github = form.github.data
+                )
+
+                skillData = form.language.data + form.library.data + form.platform.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
+
+                db.session.add(project)
+                db.session.commit()
+
+                projectId = project.id
+
+                for skillId in skillData:
+                    projectSkill = ProjectSkill(project_id = projectId, skill_id = skillId)
+
+                    db.session.add(projectSkill)
+                    db.session.commit()
+
+                return redirect(url_for('projects'))
+            except:
+                flash("Didn't post project")
+                return redirect(url_for('projects'))
+
+        return render_template('create_project.html', form=form)
     else:
         return redirect(url_for('backLogin'))
 

@@ -5,6 +5,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
+        <a href="/createproject" id="new_project" class="btn btn-primary" role="button">New Project</a>
         <table class="table" id="projectsTable">
           <thead>
             <tr>
@@ -19,18 +20,6 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h1><a class="displayForm" href="#">+</a></h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div id="form-container" class="hide">
-          {{ wtf.quick_form(form) }}
-        </div>
       </div>
     </div>
   </div>
