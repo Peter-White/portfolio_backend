@@ -125,7 +125,7 @@
                         </div>
                       </td>
                       <td>
-                        <a id="{{image.id}}" class="btn btn-danger deleteImage" href="#" role="button">Delete</a>
+                        <a id="{{image.id}}" class="btn btn-danger deleteImage" href="/deleteimage/{{image.id}}" role="button">Delete</a>
                       </td>
                     </tr>
                     {% endfor %}
@@ -160,7 +160,7 @@
                           </video>
                         </td>
                         <td>
-                          <a id="{{video.id}}" class="btn btn-danger deleteVideo" href="#" role="button">Delete</a>
+                          <a id="{{video.id}}" class="btn btn-danger deleteVideo" href="/deletevideo/{{video.id}}" role="button">Delete</a>
                         </td>
                       </tr>
                       {% endfor %}
@@ -197,7 +197,6 @@
 {% endblock %}
 
 {% block page_scripts %}
-  <script type="text/javascript" src="../static/js/deleteImage.js"></script>
   <script type="text/javascript" src="../static/js/form.js"></script>
   <script type="text/javascript" src="../static/js/project.js"></script>
 {% endblock %}

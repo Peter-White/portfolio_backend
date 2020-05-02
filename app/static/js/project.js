@@ -3,11 +3,6 @@ $(document).ready(function(){
 
   let $btnDanger = $(".btn-danger");
   let projectId = parseInt(url[url.length - 1]);
-  let $deleteImage = $("a.btn.btn-danger.deleteImage");
-
-  $card.click(function(e){
-    e.stopPropagation();
-  });
 
   $(document.body).on('click', 'li#skill', function() {
     let skill = $(this);
@@ -34,14 +29,6 @@ $(document).ready(function(){
       } else {
         alert(data[Object.keys(data)[0]]);
       }
-    });
-  });
-
-  $deleteImage.click(function(e) {
-    e.preventDefault();
-
-    $.post("/deleteimage/"+$(this).attr("id"), function(data){
-      console.log(data);
     });
   });
 });

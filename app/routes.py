@@ -190,18 +190,17 @@ def project(id):
 
 @app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])
 def deleteImage(id):
-    # try:
-    #     pImage = ProjectImage.query.get(id)
-    #
-    #     db.session.delete(pImage)
-    #     db.session.commit()
-    #
-    #     return redirect(url_for('projects'))
-    # except:
-    #     flash("Something went wrong")
-    #     return redirect(url_for('projects'))
-    print(id)
-    return "test"
+    try:
+        pImage = ProjectImage.query.get(id)
+
+        db.session.delete(pImage)
+        db.session.commit()
+
+        print("image deleted")
+    except:
+        print("Something went wrong")
+
+    return redirect(url_for('projects'))
 
 @app.route('/deletevideo/<int:id>', methods=['GET', 'POST'])
 def deleteVideo(id):
@@ -218,9 +217,11 @@ def deleteVideo(id):
         db.session.delete(pVideo)
         db.session.commit()
 
-        return jsonify({ "success" : "video deleted" })
+        print("video deleted")
     except:
-        return jsonify({ "failed" : "Something went wrong" })
+        print("Something went wrong")
+
+    return redirect(url_for('projects'))
 
 @app.route('/addprojectskill', methods=['GET', 'POST'])
 def addProjectSkill():
