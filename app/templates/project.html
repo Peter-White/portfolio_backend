@@ -121,7 +121,7 @@
                       <th scope="row">{{loop.index}}</th>
                       <td>
                         <div class="thumbnail">
-                          <img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" />
+                          <a href="data:image/png;base64, {{image.image.decode("utf-8")}}"><img class="{{loop.index}}" src="data:image/png;base64, {{image.image.decode("utf-8")}}" /></a>
                         </div>
                       </td>
                       <td>

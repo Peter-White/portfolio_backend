@@ -8,11 +8,6 @@ table img {
   cursor: pointer;
 }
 
-.card {
-  max-height: 800px;
-  overflow: scroll;
-}
-
 .container.card-container {
   margin-top: 50px;
 }
@@ -53,8 +48,8 @@ table img {
   display: block;
 }
 
-.card {
-  z-index: 2
+.hide {
+  display: none;
 }
 
 li#skill:hover {

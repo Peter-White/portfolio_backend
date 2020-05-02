@@ -188,20 +188,22 @@ def project(id):
     else:
         return redirect(url_for('backLogin'))
 
-@app.route('/deleteimage/<int:id>', methods=['GET'])
+@app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])
 def deleteImage(id):
-    try:
-        pImage = ProjectImage.query.get(id)
+    # try:
+    #     pImage = ProjectImage.query.get(id)
+    #
+    #     db.session.delete(pImage)
+    #     db.session.commit()
+    #
+    #     return redirect(url_for('projects'))
+    # except:
+    #     flash("Something went wrong")
+    #     return redirect(url_for('projects'))
+    print(id)
+    return "test"
 
-        db.session.delete(pImage)
-        db.session.commit()
-
-        return redirect(url_for('projects'))
-    except:
-        flash("Something went wrong")
-        return redirect(url_for('projects'))
-
-@app.route('/deletevideo/<int:id>', methods=['GET'])
+@app.route('/deletevideo/<int:id>', methods=['GET', 'POST'])
 def deleteVideo(id):
     try:
         pVideo = ProjectVideo.query.get(id)
