@@ -198,64 +198,67 @@ def createImage():
 @app.route('/editproject/<int:id>', methods=['GET', 'POST'])
 def editProject(id):
     if current_user.is_authenticated:
-        project = Project.query.get(id)
-        form = AddProjectForm()
+        try:
+            project = Project.query.get(id)
+            form = AddProjectForm()
 
-        dbSkills = {
-            "language": [],
-            "environment": [],
-            "tool": [],
-            "platform": [],
-            "library": [],
-            "database": [],
-            "expertise": [],
-            "framework": []
-        }
+            dbData = {
+                "title": project.title,
+                "description": project.description,
+                "url": project.url,
+                "github": project.github,
+                "language": [],
+                "environment": [],
+                "tool": [],
+                "platform": [],
+                "library": [],
+                "database": [],
+                "expertise": [],
+                "framework": []
+            }
 
-        print(dbSkills)
+            projectSkills = ProjectSkill.query.filter_by(project_id = id).all()
+            for ps in projectSkills:
+                skill = Skill.query.get(ps.skill_id)
+                dbData[skill.category].append(str(skill.id))
 
-        projectSkills = ProjectSkill.query.filter_by(project_id = id).all()
-        for ps in projectSkills:
-            skill = Skill.query.get(ps.skill_id)
-            dbSkills[skill.category].append(str(skill.id))
+            form.title.data = dbData["title"]
+            form.description.data = dbData["description"]
+            form.url.data = dbData["url"]
+            form.github.data = dbData["github"]
+            form.language.data = dbData["language"]
+            form.library.data = dbData["library"]
+            form.platform.data = dbData["platform"]
+            form.database.data = dbData["database"]
+            form.environment.data = dbData["environment"]
+            form.framework.data = dbData["framework"]
+            form.tool.data = dbData["tool"]
 
-        form.title.data = project.title
-        form.description.data = project.description
-        form.url.data = project.url
-        form.github.data = project.github
-        form.language.data = dbSkills["language"]
-        form.library.data = dbSkills["library"]
-        form.platform.data = dbSkills["platform"]
-        form.database.data = dbSkills["database"]
-        form.environment.data = dbSkills["environment"]
-        form.framework.data = dbSkills["framework"]
-        form.tool.data = dbSkills["tool"]
+            if form.validate_on_submit():
+                newData = {}
+                newData["title"] = request.form["title"]
+                newData["description"] = request.form["description"]
+                newData["url"] = request.form["url"]
+                newData["github"] = request.form["github"]
+                newData["language"] = request.form.getlist("language")
+                newData["library"] = request.form.getlist("library")
+                newData["platform"] = request.form.getlist("platform")
+                newData["database"] = request.form.getlist("database")
+                newData["environment"] = request.form.getlist("environment")
+                newData["framework"] = request.form.getlist("framework")
+                newData["tool"] = request.form.getlist("tool")
 
-        if form.validate_on_submit():
-            form_data = request.form
-            newTitle = form_data["title"]
-            newDescription = form_data["description"]
-            newUrl = form_data["url"]
-            newGithub = form_data["github"]
-            newLanguage = form_data.getlist("language")
-            newLibrary = form_data.getlist("library")
-            newPlatform = form_data.getlist("platform")
-            newDatabase = form_data.getlist("database")
-            newEnvironment = form_data.getlist("environment")
-            newFramework = form_data.getlist("framework")
-            newTool = form_data.getlist("tool")
+                project.title = request.form["title"]
+                project.description = request.form["description"]
+                project.url = request.form["url"]
+                project.github = request.form["github"]
 
-            print(newTitle)
-            print(newDescription)
-            print(newUrl)
-            print(newGithub)
-            print(newLanguage)
-            print(newLibrary)
-            print(newPlatform)
-            print(newDatabase)
-            print(newEnvironment)
-            print(newFramework)
-            print(newTool)
+                db.session.commit()
+                return redirect(url_for('project', id=id))
+
+        except:
+            flash("Didn't edit project")
+            return redirect(url_for('project', id=id))
 
         return render_template('edit_project.html', form=form)
     else:
