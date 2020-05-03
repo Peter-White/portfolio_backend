@@ -253,8 +253,71 @@ def editProject(id):
                 project.url = request.form["url"]
                 project.github = request.form["github"]
 
+                if dbData["language"] != request.form.getlist("language"):
+                    for id in dbData["language"]:
+                        if id not in newData["language"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["language"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
+                if dbData["library"] != request.form.getlist("library"):
+                    for id in dbData["library"]:
+                        if id not in newData["library"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["library"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
+                if dbData["platform"] != request.form.getlist("platform"):
+                    for id in dbData["platform"]:
+                        if id not in newData["platform"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["platform"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
+                if dbData["database"] != request.form.getlist("database"):
+                    for id in dbData["database"]:
+                        if id not in newData["database"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["database"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
+                if dbData["environment"] != request.form.getlist("environment"):
+                    for id in dbData["environment"]:
+                        if id not in newData["environment"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["environment"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
+                if dbData["framework"] != request.form.getlist("framework"):
+                    for id in dbData["framework"]:
+                        if id not in newData["framework"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["framework"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
+                if dbData["tool"] != request.form.getlist("tool"):
+                    for id in dbData["tool"]:
+                        if id not in newData["tool"]:
+                            db.session.delete(ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first())
+
+                    for id in newData["tool"]:
+                        if ProjectSkill.query.filter_by(skill_id=id, project_id=project.id).first() == None:
+                            db.session.add(ProjectSkill(project_id=project.id, skill_id=id))
+
                 db.session.commit()
-                return redirect(url_for('project', id=id))
+                return redirect(url_for('project', id=project.id))
 
         except:
             flash("Didn't edit project")
