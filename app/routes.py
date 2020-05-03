@@ -24,10 +24,10 @@ def index():
 
 @app.route('/skills', methods=['GET', 'POST'])
 def skills():
-    form = AddSkillForm()
-    skills = Skill.query.all()
-
     if current_user.is_authenticated:
+
+        form = AddSkillForm()
+        skills = Skill.query.all()
         if form.validate_on_submit():
             try:
                 skill = Skill(
@@ -50,9 +50,8 @@ def skills():
 
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
-    projects = Project.query.all()
-
     if current_user.is_authenticated:
+        projects = Project.query.all()
         return render_template('projects.html', projects=projects)
     else:
         return redirect(url_for('backLogin'))
@@ -158,9 +157,9 @@ def project(id):
 
 @app.route('/createproject', methods=['GET', 'POST'])
 def createImage():
-    form = AddProjectForm()
-
     if current_user.is_authenticated:
+
+        form = AddProjectForm()
         if form.validate_on_submit():
             try:
                 if(form.url.data == "" and form.github.data == ""):
@@ -174,7 +173,7 @@ def createImage():
                     github = form.github.data
                 )
 
-                skillData = form.language.data + form.library.data + form.platform.data + form.database_tool.data + form.environment.data + form.framework.data + form.tool.data
+                skillData = form.language.data + form.library.data + form.platform.data + form.database.data + form.environment.data + form.framework.data + form.tool.data
 
                 db.session.add(project)
                 db.session.commit()
@@ -195,6 +194,90 @@ def createImage():
         return render_template('create_project.html', form=form)
     else:
         return redirect(url_for('backLogin'))
+
+@app.route('/editproject/<int:id>', methods=['GET', 'POST'])
+def editProject(id):
+    if current_user.is_authenticated:
+        project = Project.query.get(id)
+        form = AddProjectForm()
+
+        dbSkills = {
+            "language": [],
+            "environment": [],
+            "tool": [],
+            "platform": [],
+            "library": [],
+            "database": [],
+            "expertise": [],
+            "framework": []
+        }
+
+        print(dbSkills)
+
+        projectSkills = ProjectSkill.query.filter_by(project_id = id).all()
+        for ps in projectSkills:
+            skill = Skill.query.get(ps.skill_id)
+            dbSkills[skill.category].append(str(skill.id))
+
+        form.title.data = project.title
+        form.description.data = project.description
+        form.url.data = project.url
+        form.github.data = project.github
+        form.language.data = dbSkills["language"]
+        form.library.data = dbSkills["library"]
+        form.platform.data = dbSkills["platform"]
+        form.database.data = dbSkills["database"]
+        form.environment.data = dbSkills["environment"]
+        form.framework.data = dbSkills["framework"]
+        form.tool.data = dbSkills["tool"]
+
+        if form.validate_on_submit():
+            form_data = request.form
+            newTitle = form_data["title"]
+            newDescription = form_data["description"]
+            newUrl = form_data["url"]
+            newGithub = form_data["github"]
+            newLanguage = form_data.getlist("language")
+            newLibrary = form_data.getlist("library")
+            newPlatform = form_data.getlist("platform")
+            newDatabase = form_data.getlist("database")
+            newEnvironment = form_data.getlist("environment")
+            newFramework = form_data.getlist("framework")
+            newTool = form_data.getlist("tool")
+
+            print(newTitle)
+            print(newDescription)
+            print(newUrl)
+            print(newGithub)
+            print(newLanguage)
+            print(newLibrary)
+            print(newPlatform)
+            print(newDatabase)
+            print(newEnvironment)
+            print(newFramework)
+            print(newTool)
+
+        return render_template('edit_project.html', form=form)
+    else:
+        return redirect(url_for('backLogin'))
+
+@login_required
+@app.route('/deleteproject/<int:id>')
+def deleteProject(id):
+    pImages = ProjectImage.query.filter_by(project_id = id).all()
+    pSkills = ProjectSkill.query.filter_by(project_id = id).all()
+
+    for image in pImages:
+        db.session.delete(image)
+
+    for skill in pSkills:
+        db.session.delete(skill)
+
+    project = Project.query.get(id);
+    db.session.delete(project)
+    db.session.commit()
+
+    return redirect(url_for('projects'))
 
 @app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])
 def deleteImage(id):
@@ -283,24 +366,6 @@ def users():
         return render_template('users.html')
     else:
         return redirect(url_for('backLogin'))
-
-@login_required
-@app.route('/deleteproject/<int:id>')
-def deleteProject(id):
-    pImages = ProjectImage.query.filter_by(project_id = id).all()
-    pSkills = ProjectSkill.query.filter_by(project_id = id).all()
-
-    for image in pImages:
-        db.session.delete(image)
-
-    for skill in pSkills:
-        db.session.delete(skill)
-
-    project = Project.query.get(id);
-    db.session.delete(project)
-    db.session.commit()
-
-    return redirect(url_for('projects'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def backLogin():

@@ -49,7 +49,7 @@ class AddProjectForm(FlaskForm):
     language = SelectMultipleField('Languages Used', choices=skills("language"))
     library = SelectMultipleField('Libraries Used', choices=skills("library"))
     platform = SelectMultipleField('Platforms Used', choices=skills("platform"))
-    database_tool = SelectMultipleField('Database Tools Used', choices=skills("database"))
+    database = SelectMultipleField('Database Tools Used', choices=skills("database"))
     environment = SelectMultipleField('Environments Used', choices=skills("environment"))
     framework = SelectMultipleField('Frameworks Used', choices=skills("framework"))
     tool = SelectMultipleField('Tools Used', choices=skills("tool"))
