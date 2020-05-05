@@ -345,6 +345,7 @@ def deleteProject(id):
 
     return redirect(url_for('projects'))
 
+<<<<<<< HEAD
 @login_required
 @app.route('/deleteskill', methods=['GET','POST'])
 def deleteSkill():
@@ -362,6 +363,8 @@ def deleteSkill():
     # except:
         # return jsonify({"failed": "didn't work"})
 
+=======
+>>>>>>> projects
 @app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])
 def deleteImage(id):
     try:
