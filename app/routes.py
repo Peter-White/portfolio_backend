@@ -72,7 +72,6 @@ def project(id):
             "platform": [],
             "library": [],
             "database": [],
-            "expertise": [],
             "framework": []
         }
 
@@ -345,22 +344,26 @@ def deleteProject(id):
 
     return redirect(url_for('projects'))
 
-@login_required
 @app.route('/deleteskill', methods=['GET','POST'])
 def deleteSkill():
-    # try:
-    id = request.args["id"]
-    skill = Skill.query.filter_by(id = id).first()
+    try:
+        id = request.args["id"]
+        print(id)
+        skill = Skill.query.filter_by(id = id).first()
 
-    for ps in ProjectSkill.query.fileter_by(roject_id = id).all():
-        db.session.delete(ps)
+        pSkills = ProjectSkill.query.filter_by(skill_id = id).all()
+        print(pSkills)
 
-    db.session.delete(skill)
-    db.session.commit()
+        for ps in pSkills:
+            print(ps)
+            db.session.delete(ps)
 
-    return jsonify({"success": id})
-    # except:
-        # return jsonify({"failed": "didn't work"})
+        db.session.delete(skill)
+        db.session.commit()
+
+        return jsonify({"success": id})
+    except:
+        return jsonify({"failed": "didn't work"})
 
 
 @app.route('/deleteimage/<int:id>', methods=['GET', 'POST'])

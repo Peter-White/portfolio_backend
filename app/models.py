@@ -86,7 +86,7 @@ class ProjectSkill(db.Model):
     skill_id = db.Column(db.Integer, db.ForeignKey('skill.id'), nullable=False)
 
     def __repr__(self):
-        return '<ProjectSkill {}>'.format(self.project_id + " - " + self.skill_id)
+        return '<ProjectSkill {}>'.format(self.project_id, self.skill_id)
 
 class ProjectImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)

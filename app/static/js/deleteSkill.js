@@ -25,12 +25,7 @@ $(document).ready(function(){
       let selected_id = selected.attr('id');
 
       if(confirm("Are you sure you want to delete this skill")) {
-<<<<<<< HEAD
         $.post(`/deleteskill?id=${selected_id}`, function(data) {
-=======
-        $.post(`/api/deleteskill?id=${selected_id}`, function(data) {
->>>>>>> projects
-          console.log(data);
           if(Object.keys(data)[0] === "success") {
             table.row(selected).remove().draw( false );
           } else {
