@@ -37,7 +37,7 @@ class RegisterForm(FlaskForm):
 
 class AddSkillForm(FlaskForm):
     title = StringField("Skill Title")
-    yearStarted = IntegerField('Year Started')
+    year_started = IntegerField('Year Started')
     category = RadioField('Category', choices=[('database', 'Database Tools'), ('environment', 'Environment'), ('expertise','Expertise '), ('platform', 'Platform'), ('framework', 'Framework'), ('language', 'Language'), ('library', 'Library'), ('tool','Tool')])
     submit = SubmitField('Submit')
 

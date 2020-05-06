@@ -30,6 +30,7 @@ def skills():
         skills = Skill.query.all()
         if form.validate_on_submit():
             try:
+                print(form.title.data)
                 skill = Skill(
                     title = form.title.data,
                     year_started = form.year_started.data,
@@ -41,7 +42,7 @@ def skills():
 
                 return redirect(url_for('skills'))
             except:
-                flash("Didn't post skill")
+                print("Didn't post skill")
                 return redirect(url_for('skills'))
 
         return render_template('skills.html', skills=skills, form=form, title="Skills")
