@@ -679,3 +679,33 @@ def getProject(id):
         return jsonify(data)
     except:
         return jsonify({"Error" : "Could not retrieve project"})
+
+@app.route('/api/skills', methods=["GET"])
+def getSkills():
+    try:
+        data = []
+
+        for skill in Skill.query.all():
+            data.append({ "id" : skill.id, "title" : skill.title, "category" : skill.category, "year_started" : skill.year_started })
+
+        return jsonify(data)
+    except:
+        return jsonify({"Error" : "Could not retrieve skills"})
+
+@app.route('/api/skills/<int:id>', methods=["GET"])
+def getSkill(id):
+    try:
+        skill = Skill.query.get(id)
+
+        data = { "id" : skill.id, "title" : skill.title, "category" : skill.category, "year_started" : skill.year_started }
+
+        if skill.category != "expertise":
+            data["projects"] = []
+
+            for ps in ProjectSkill.query.filter_by(skill_id = id).all():
+                data["projects"].append({ "id" : ps.project_id, "title" : Project.query.get(ps.project_id).title })
+
+
+        return jsonify(data)
+    except:
+        return jsonify({"Error" : "Could not retrieve skills"})
