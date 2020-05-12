@@ -683,10 +683,19 @@ def getProject(id):
 @app.route('/api/skills', methods=["GET"])
 def getSkills():
     try:
-        data = []
+        data = {
+            'database' : [],
+            'environment' : [],
+            'expertise' : [],
+            'platform' : [],
+            'framework' : [],
+            'language' : [],
+            'library' : [],
+            'tool' : []
+        }
 
         for skill in Skill.query.all():
-            data.append({ "id" : skill.id, "title" : skill.title, "category" : skill.category, "year_started" : skill.year_started })
+            data[skill.category].append({ "id" : skill.id, "title" : skill.title, "category" : skill.category, "year_started" : skill.year_started })
 
         return jsonify(data)
     except:
