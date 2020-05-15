@@ -551,6 +551,8 @@ def register():
         db.session.add(employee)
         db.session.commit()
 
+        postCode(user.id)
+
         return jsonify({ "success" : "User {} created".format(data['email']) })
     except:
         return jsonify({ "error": "Failed to create user" })
@@ -735,10 +737,11 @@ def postCode(id):
         if(user):
             code = UserCode.query.filter_by(user_id=user.id).first()
 
-            if(code):
-                code.gen_code()
-            else:
+            if(code == None):
                 code = UserCode(user_id=id)
+                code.gen_code()
+
+            while UserCode.query.filter_by(code = code.code).first():
                 code.gen_code()
 
             db.session.add(code)
@@ -752,15 +755,24 @@ def postCode(id):
     except:
         return jsonify({"Error" : "There was an error sending your code"})
 
+@app.route('/api/confirm_code', methods=["GET", "POST"])
+def confirmCode():
+    try:
+        code = request.header.get("code")
+
+        return jsonify({ "Success" : f"" })
+    except:
+        return jsonify({ "Error" : "Failed to authenticate" })
+
 @app.route('/api/test', methods=['GET','POST'])
 def send_test_mail():
-    # try:
-    user_code = UserCode(user_id=1)
-    user_code.gen_code()
+    code = UserCode(user_id=1)
+    code.code = "Q98BJR"
 
-    db.session.add(user_code)
+    while UserCode.query.filter_by(code = code.code).first():
+        code.gen_code()
+
+    db.session.add(code)
     db.session.commit()
 
-    return jsonify({ "success" : user_code.code })
-    # except:
-        # return jsonify({ "failed" : "no work" })
+    return jsonify({ "result" : "thing" })
