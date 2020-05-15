@@ -4,6 +4,7 @@ from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, Pro
 from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee, ProjectVideo
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
+from app.email import send_test
 from sqlalchemy import or_
 import base64
 import jwt
@@ -541,8 +542,13 @@ def register():
 
         user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], email=data["email"])
         user.set_password(data["password"])
-        
+
         db.session.add(user)
+        db.session.commit()
+
+        employee = Employee(user_id=user.id, confirmed=False, role_id=4)
+
+        db.session.add(employee)
         db.session.commit()
 
         return jsonify({ "success" : "User {} created".format(data['email']) })
@@ -720,3 +726,13 @@ def getSkill(id):
         return jsonify(data)
     except:
         return jsonify({"Error" : "Could not retrieve skills"})
+
+@app.route('/api/test', methods=['GET','POST'])
+def send_test_mail():
+    # try:
+    email = request.headers.get('email')
+
+    send_test(email)
+    return jsonify({ "success" : "mail sent maybe" })
+    # except:
+        # return jsonify({ "failed" : "no work" })
