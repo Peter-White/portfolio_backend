@@ -4,7 +4,7 @@ from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, Pro
 from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee, ProjectVideo, UserCode
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
-from app.email import send_test
+from app.email import send_confirm_email
 from sqlalchemy import or_
 import base64
 import jwt
@@ -743,6 +743,8 @@ def postCode(id):
 
             db.session.add(code)
             db.session.commit()
+
+            send_confirm_email(user, code.code)
         else:
             return jsonify({ "Error" : "User not found" })
 
