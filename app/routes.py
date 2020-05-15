@@ -536,12 +536,14 @@ def register():
             algorithm=["HS256"]
         )
 
+        if User.query.filter_by(email=data["email"]).first():
+            return jsonify({ "Denied" : "Email already registered" })
+
         user = User(first_name=data["first_name"], last_name=data["last_name"], company=data["company"], email=data["email"])
         user.set_password(data["password"])
+        
         db.session.add(user)
         db.session.commit()
-
-
 
         return jsonify({ "success" : "User {} created".format(data['email']) })
     except:
