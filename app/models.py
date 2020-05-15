@@ -3,6 +3,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from time import time
+import random
+import string
 import jwt
 
 class Skill(db.Model):
@@ -104,6 +106,20 @@ class ProjectVideo(db.Model):
 
     def __repr__(self):
         return '<ProjectVideo {} - {} - {} - {}>'.format(self.id, self.project_id, self.name, self.type)
+
+class UserCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    code = db.Column(db.String(6), nullable=False)
+
+    def gen_code(self, stringLength=6):
+        lettersAndDigits = string.ascii_letters + string.digits
+        code = ''.join((random.choice(lettersAndDigits) for i in range(stringLength))).upper()
+
+        while self.code == code:
+            code = ''.join((random.choice(lettersAndDigits) for i in range(stringLength))).upper()
+
+        self.code = code
 
 @login.user_loader
 def load_user(id):

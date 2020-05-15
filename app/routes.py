@@ -1,7 +1,7 @@
 from app import app, db, login
 from flask import render_template, url_for, redirect, flash, session, json, jsonify, request
 from app.forms import LoginForm, RegisterForm, AddSkillForm, AddProjectForm, ProjectImageForm, ProjectVideoForm
-from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee, ProjectVideo
+from app.models import User, Skill, Project, ProjectSkill, ProjectImage, Employee, ProjectVideo, UserCode
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from app.email import send_test
@@ -727,12 +727,38 @@ def getSkill(id):
     except:
         return jsonify({"Error" : "Could not retrieve skills"})
 
+@app.route('/api/send_code/<int:id>', methods=["GET", "POST"])
+def postCode(id):
+    try:
+        user = User.query.get(id)
+
+        if(user):
+            code = UserCode.query.filter_by(user_id=user.id).first()
+
+            if(code):
+                code.gen_code()
+            else:
+                code = UserCode(user_id=id)
+                code.gen_code()
+
+            db.session.add(code)
+            db.session.commit()
+        else:
+            return jsonify({ "Error" : "User not found" })
+
+        return jsonify({"Success" : "An email with your registration code has been sent"})
+    except:
+        return jsonify({"Error" : "There was an error sending your code"})
+
 @app.route('/api/test', methods=['GET','POST'])
 def send_test_mail():
     # try:
-    email = request.headers.get('email')
+    user_code = UserCode(user_id=1)
+    user_code.gen_code()
 
-    send_test(email)
-    return jsonify({ "success" : "mail sent maybe" })
+    db.session.add(user_code)
+    db.session.commit()
+
+    return jsonify({ "success" : user_code.code })
     # except:
         # return jsonify({ "failed" : "no work" })
