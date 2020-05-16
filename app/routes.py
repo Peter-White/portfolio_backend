@@ -758,9 +758,14 @@ def postCode(id):
 @app.route('/api/confirm_code', methods=["GET", "POST"])
 def confirmCode():
     try:
-        code = request.header.get("code")
+        code = request.headers.get("code")
+        print(code)
 
-        return jsonify({ "Success" : f"" })
+        user_code = UserCode.query.filter_by(code=code).first()
+
+        print(user_code)
+
+        return jsonify({ "Success" : "You are now authorized" })
     except:
         return jsonify({ "Error" : "Failed to authenticate" })
 
