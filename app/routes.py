@@ -759,11 +759,20 @@ def postCode(id):
 def confirmCode():
     try:
         code = request.headers.get("code")
-        print(code)
-
         user_code = UserCode.query.filter_by(code=code).first()
 
-        print(user_code)
+        if user_code:
+            print(user_code.user_id)
+            employee = Employee.query.filter_by(user_id=user_code.user_id).first()
+            employee.confirmed = True
+
+            db.session.add(employee)
+            db.session.commit()
+
+            db.session.delete(user_code)
+            db.session.commit()
+        else:
+            return jsonify({ "Failed" : "Code not valid" })
 
         return jsonify({ "Success" : "You are now authorized" })
     except:
