@@ -559,24 +559,23 @@ def register():
 
 @app.route('/api/login', methods=['GET','POST'])
 def login():
-    # try:
-    token = request.headers.get('token')
+    try:
+        token = request.headers.get('token')
 
-    data = jwt.decode(
-        token,
-        app.config["SECRET_KEY"],
-        algorithm=["HS256"]
-    )
+        data = jwt.decode(
+            token,
+            app.config["SECRET_KEY"],
+            algorithm=["HS256"]
+        )
 
-    user = User.query.filter_by(email=data["email"]).first()
+        user = User.query.filter_by(email=data["email"]).first()
 
-    if user is None or not user.check_password(data["password"]):
-        return jsonify({ "message": 'Error #002: Invalid credentials' })
+        if user is None or not user.check_password(data["password"]):
+            return jsonify({ "message": 'Error #002: Invalid credentials' })
 
-    return jsonify({ 'message': 'success', 'token': user.get_token() })
-
-    # except:
-        # return jsonify({ "error" : "failed to login" })
+        return jsonify({ 'message': 'success', 'token': user.get_token() })
+    except:
+        return jsonify({ "error" : "failed to login" })
 
 @app.route('/api/users', methods=["GET"])
 def getUsers():
