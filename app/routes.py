@@ -580,7 +580,7 @@ def login():
             db.session.add(employee)
             db.session.commit()
 
-        if(!employee.confirmed):
+        if(employee.confirmed == False):
             postCode(user.id)
             return jsonify({ "message" : 'error002' })
 
