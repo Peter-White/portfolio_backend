@@ -571,7 +571,18 @@ def login():
         user = User.query.filter_by(email=data["email"]).first()
 
         if user is None or not user.check_password(data["password"]):
-            return jsonify({ "message": 'Error #002: Invalid credentials' })
+            return jsonify({ "message": 'error001' })
+
+        employee = Employee.query.filter_by(user_id=user.id).first()
+
+        if(employee == None):
+            employee = Employee(user_id=user.id, confirmed=False, role_id=4)
+            db.session.add(employee)
+            db.session.commit()
+
+        if(!employee.confirmed):
+            postCode(user.id)
+            return jsonify({ "message" : 'error002' })
 
         return jsonify({ 'message': 'success', 'token': user.get_token() })
     except:
