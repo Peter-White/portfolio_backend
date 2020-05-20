@@ -772,7 +772,6 @@ def confirmCode():
         user_code = UserCode.query.filter_by(code=code).first()
 
         if user_code:
-            print(user_code.user_id)
             employee = Employee.query.filter_by(user_id=user_code.user_id).first()
             employee.confirmed = True
 
@@ -790,13 +789,6 @@ def confirmCode():
 
 @app.route('/api/test', methods=['GET','POST'])
 def send_test_mail():
-    code = UserCode(user_id=1)
-    code.code = "Q98BJR"
-
-    while UserCode.query.filter_by(code = code.code).first():
-        code.gen_code()
-
-    db.session.add(code)
-    db.session.commit()
-
+    user = User.q
+    send_confirm_email(user, code.code)
     return jsonify({ "result" : "thing" })

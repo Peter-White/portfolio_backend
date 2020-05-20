@@ -121,6 +121,9 @@ class UserCode(db.Model):
 
         self.code = code
 
+    def __repr__(self):
+        return '<UserCode {} - {}>'.format(self.user_id, self.code)
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
