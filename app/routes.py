@@ -31,7 +31,6 @@ def skills():
         skills = Skill.query.all()
         if form.validate_on_submit():
             try:
-                print(form.title.data)
                 skill = Skill(
                     title = form.title.data,
                     year_started = form.year_started.data,
@@ -350,14 +349,11 @@ def deleteProject(id):
 def deleteSkill():
     try:
         id = request.args["id"]
-        print(id)
         skill = Skill.query.filter_by(id = id).first()
 
         pSkills = ProjectSkill.query.filter_by(skill_id = id).all()
-        print(pSkills)
 
         for ps in pSkills:
-            print(ps)
             db.session.delete(ps)
 
         db.session.delete(skill)
